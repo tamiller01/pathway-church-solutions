@@ -1,69 +1,304 @@
-import Image from "next/image";
+import Link from "next/link";
+
+import {
+  Card,
+  FeatureGrid,
+  HeroSection,
+  PrimaryButton,
+  SecondaryButton,
+  TextInput,
+  TwoColumnSection,
+} from "@/components";
+
+const featureItems = [
+  {
+    icon: "✦",
+    title: "Worship Planning",
+    description: "Build flows, transitions, and service outlines in minutes with guided AI prompts.",
+  },
+  {
+    icon: "✧",
+    title: "Sermon Builder",
+    description: "Shape biblical messages with clear structure, illustrations, and application points.",
+  },
+  {
+    icon: "✷",
+    title: "Discipleship Tools",
+    description: "Create study pathways, group plans, and growth rhythms that keep people engaged.",
+  },
+];
+
+const stats = [
+  { label: "Weekly gatherings", value: "4" },
+  { label: "Small groups", value: "18" },
+  { label: "Volunteer leaders", value: "120+" },
+  { label: "Neighborhood impact", value: "1k+" },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="min-h-screen bg-neutral-warm-light text-brand-navy">
+      <header className="bg-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 sm:px-8 lg:px-12">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-gold text-sm font-bold text-brand-navy">
+              PC
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">
+                Pathway
+              </p>
+              <p className="text-sm font-semibold text-brand-navy">Church Solutions</p>
+            </div>
+          </div>
+
+          <nav className="hidden items-center gap-10 text-base font-medium text-brand-navy md:flex">
+            <Link href="#features">Features</Link>
+            <Link href="#modules">Modules</Link>
+            <Link href="#pricing">Pricing</Link>
+            <Link href="#about">About</Link>
+          </nav>
+
+          <div className="flex items-center gap-3">
+            <SecondaryButton className="hidden px-6 sm:inline-flex">Early Access</SecondaryButton>
+            <PrimaryButton className="px-6">Get Started</PrimaryButton>
+          </div>
+        </div>
+      </header>
+
+      <HeroSection
+        eyebrow="AI-powered ministry assistant"
+        title="AI-Powered Ministry Assistant for Pastors"
+        subtitle="Plan worship. Build sermons. Lead with clarity."
+        primaryAction={<PrimaryButton className="w-full sm:w-auto">Start free</PrimaryButton>}
+        secondaryAction={<SecondaryButton className="w-full sm:w-auto">Book a demo</SecondaryButton>}
+      />
+
+      <section className="bg-white px-6 py-20 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-5xl text-center">
+          <p className="text-lg text-text-secondary">
+            We help church leaders organize ministry, simplify planning, and stay focused on discipleship and pastoral care.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      <TwoColumnSection
+        eyebrow="Worship planning"
+        title="Create a complete worship plan in minutes"
+        description="From scripture and service theme to song flow, transitions, and pastoral notes, every part of the service is organized in one place."
+        media={
+          <Card className="overflow-hidden rounded-2xl border border-neutral-gray-light bg-white shadow-medium">
+            <div className="space-y-4 p-5">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">
+                    Service outline
+                  </p>
+                  <h3 className="mt-2 text-xl font-bold text-brand-navy">Sunday Morning</h3>
+                </div>
+                <span className="rounded-full bg-brand-gold/20 px-3 py-1 text-xs font-semibold text-brand-navy">
+                  Ready
+                </span>
+              </div>
+
+              <div className="space-y-3 rounded-xl bg-neutral-warm-light p-4">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-text-secondary">Welcome</span>
+                  <span className="font-semibold text-brand-navy">3 min</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-text-secondary">Call to worship</span>
+                  <span className="font-semibold text-brand-navy">2 min</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-text-secondary">Song set</span>
+                  <span className="font-semibold text-brand-navy">12 min</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-text-secondary">Scripture</span>
+                  <span className="font-semibold text-brand-navy">5 min</span>
+                </div>
+              </div>
+            </div>
+          </Card>
+        }
+      >
+        <div className="flex flex-wrap gap-3">
+          {[
+            "Service theme",
+            "Scripture passage",
+            "Worship style",
+            "Song preferences",
+          ].map((item) => (
+            <span
+              key={item}
+              className="rounded-full border border-brand-slate-blue-200 bg-brand-slate-blue-50 px-3 py-1.5 text-sm font-medium text-brand-slate-blue-700"
+            >
+              {item}
+            </span>
+          ))}
         </div>
-      </main>
-    </div>
+      </TwoColumnSection>
+
+      <TwoColumnSection
+        eyebrow="Sermon builder"
+        title="Draft biblically grounded messages with structure and flow"
+        description="Turn a passage, topic, and audience into a sermon outline with illustrations, key points, and application moments that are ready to refine."
+        reverse
+        media={
+          <Card className="overflow-hidden rounded-2xl border border-neutral-gray-light bg-white shadow-medium">
+            <div className="space-y-4 p-5">
+              <div className="rounded-xl bg-neutral-warm-light p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">
+                  Outline
+                </p>
+                <div className="mt-4 space-y-3 text-sm text-text-secondary">
+                  <p>1. Opening tension</p>
+                  <p>2. Exposition of the passage</p>
+                  <p>3. Practical application</p>
+                  <p>4. Closing invitation</p>
+                </div>
+              </div>
+            </div>
+          </Card>
+        }
+      >
+        <div className="space-y-4 text-text-secondary">
+          <p>• Audience-aware messaging</p>
+          <p>• Narrative and expository options</p>
+          <p>• Prayer and application guidance</p>
+        </div>
+      </TwoColumnSection>
+
+      <TwoColumnSection
+        eyebrow="Discipleship tools"
+        title="Build studies and growth pathways for your church"
+        description="Create group studies, discipleship goals, and seasonal care plans that align with your ministry priorities and the life of your congregation."
+        media={
+          <Card className="overflow-hidden rounded-2xl border border-neutral-gray-light bg-white shadow-medium">
+            <div className="space-y-4 p-5">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between rounded-xl bg-brand-gold/10 p-3">
+                  <span className="font-medium text-brand-navy">Group Study</span>
+                  <span className="text-xs uppercase text-brand-slate-blue-600">Active</span>
+                </div>
+                <div className="rounded-xl bg-neutral-warm-light p-3 text-sm text-text-secondary">
+                  6-week journey on prayer, trust, and obedience
+                </div>
+              </div>
+            </div>
+          </Card>
+        }
+      >
+        <div className="space-y-4 text-text-secondary">
+          <p>• Small group curriculum planning</p>
+          <p>• Prayer and discipleship pathways</p>
+          <p>• Care and follow-up rhythms</p>
+        </div>
+      </TwoColumnSection>
+
+      <section className="bg-white px-6 py-24 sm:px-8 lg:px-12" id="features">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12 text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">
+              Features overview
+            </p>
+            <h2 className="mt-4 text-4xl font-bold text-brand-navy">Everything your ministry team needs</h2>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+            {featureItems.map((item) => (
+              <Card key={item.title} className="h-full border border-neutral-gray-light bg-white p-8 shadow-soft">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-brand-navy/5 text-2xl text-brand-navy">
+                  {item.icon}
+                </div>
+                <h3 className="text-2xl font-bold text-brand-navy">{item.title}</h3>
+                <p className="mt-3 text-lg text-text-secondary">{item.description}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <FeatureGrid
+        title="Built for leadership and ministry teams"
+        description="A single system for planning, preparation, and discipleship across your church."
+        items={[
+          {
+            icon: "⚑",
+            title: "Pastoral clarity",
+            description: "Keep sermons, worship plans, and communication aligned around your values and vision.",
+          },
+          {
+            icon: "◌",
+            title: "Time savings",
+            description: "Reduce planning friction and spend more time with people instead of paperwork and meetings.",
+          },
+          {
+            icon: "✓",
+            title: "Team alignment",
+            description: "Share plans, workflows, and ministry rhythms with leaders and volunteers in one place.",
+          },
+        ]}
+        className="bg-neutral-warm-light"
+      />
+
+      <section className="bg-neutral-warm-medium px-6 py-20 sm:px-8 lg:px-12" id="about">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">
+            Pastoral trust
+          </p>
+          <h2 className="mt-5 text-4xl font-bold text-brand-navy">
+            Designed for churches that want structure without losing spiritual warmth.
+          </h2>
+          <div className="mx-auto mt-6 h-1 w-20 rounded-full bg-brand-gold" />
+        </div>
+      </section>
+
+      <section className="bg-white px-6 py-20 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="text-lg text-text-secondary">
+            Pathway Church Solutions helps churches lead with clarity, consistency, and care from planning through follow-up.
+          </p>
+        </div>
+      </section>
+
+      <section className="bg-brand-navy px-6 py-24 text-white sm:px-8 lg:px-12" id="pricing">
+        <div className="mx-auto max-w-3xl rounded-3xl border border-white/10 bg-brand-navy/80 p-10 text-center shadow-deep">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-gold">
+            Early access
+          </p>
+          <h2 className="mt-4 text-4xl font-bold text-white">Join the early access list</h2>
+          <p className="mt-4 text-xl text-white/80">
+            Be first to explore the system built for modern ministry leadership.
+          </p>
+
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-center">
+            <div className="w-full max-w-md">
+              <TextInput
+                type="email"
+                placeholder="Email address"
+                className="border-white/20 bg-white text-brand-navy placeholder:text-neutral-gray-light"
+              />
+            </div>
+            <PrimaryButton className="w-full sm:w-auto">Get updates</PrimaryButton>
+          </div>
+        </div>
+      </section>
+
+      <footer className="bg-brand-navy px-6 py-8 text-white sm:px-8 lg:px-12">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 text-sm text-white/80 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="font-semibold text-white">Pathway Church Solutions</p>
+            <p>Serving churches with excellence and faithfulness</p>
+          </div>
+          <div className="flex items-center gap-6">
+            <Link href="#features">Features</Link>
+            <Link href="#modules">Modules</Link>
+            <Link href="#about">About</Link>
+          </div>
+        </div>
+      </footer>
+    </main>
   );
 }

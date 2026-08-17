@@ -1,0 +1,279 @@
+# Pathway Church Solutions — UI Kit
+A unified design system for building all UI components, pages, and modules in the Pathway Church Solutions application.
+
+---
+
+## 1. Color System
+
+### Brand Colors
+- **brand.navy** — #1E2A38  
+- **brand.gold** — #D4A94A  
+- **brand.slateBlue** — #4A5E7B  
+- **brand.slateBlueDark** — #2F3E52  
+
+### Neutrals
+- **neutral.white** — #FFFFFF  
+- **neutral.warmLight** — #F7F4EF  
+- **neutral.warmMedium** — #E8EBF2  
+- **neutral.gray** — #3C4A57  
+- **neutral.grayLight** — #D9DCE2  
+
+### Text Colors
+- **text.primary** — brand.navy  
+- **text.secondary** — neutral.gray  
+- **text.inverse** — neutral.white  
+- **text.accent** — brand.gold  
+
+### Semantic Colors
+- **success** — #4CAF50  
+- **warning** — #FFC107  
+- **error** — #C94A4A  
+
+---
+
+## 2. Typography
+
+### Font Families
+- **Primary:** Inter  
+- **Secondary (optional):** Source Sans Pro  
+
+### Display
+- **Display XL** — 56px / bold / navy  
+- **Display LG** — 48px / bold / navy  
+
+### Headings
+- **H1** — 48px / bold / navy  
+- **H2** — 32px / bold / navy  
+- **H3** — 22px / bold / navy  
+
+### Body
+- **Body Large** — 20px / regular / slate  
+- **Body Medium** — 18px / regular / slate  
+- **Body Small** — 16px / regular / slate  
+
+### Supporting
+- **Caption** — 14px / regular / gray  
+- **Label** — 18px / medium / navy  
+
+---
+
+## 3. Spacing System (8‑Point Grid)
+
+- 4px  
+- 8px  
+- 12px  
+- 16px  
+- 20px  
+- 24px  
+- 32px  
+- 40px  
+- 48px  
+- 56px  
+- 80px  
+- 100px  
+- 140px  
+
+---
+
+## 4. Border Radius
+
+- **radius.sm** — 8px  
+- **radius.md** — 12px  
+- **radius.lg** — 16px  
+- **radius.xl** — 24px  
+
+---
+
+## 5. Shadows
+
+- **shadow.none** — none  
+- **shadow.soft** — 0px 2px 6px rgba(0,0,0,0.08)  
+- **shadow.medium** — 0px 4px 12px rgba(0,0,0,0.12)  
+- **shadow.deep** — 0px 8px 24px rgba(0,0,0,0.16)  
+
+---
+
+## 6. Layout & Grid
+
+### Desktop
+- 12 columns  
+- 24px gutters  
+- 32px margins  
+- Max width: 1200px  
+
+### Tablet
+- 8 columns  
+- 20px gutters  
+- Max width: 900px  
+
+### Mobile
+- 4 columns  
+- 16px gutters  
+- Max width: 600px  
+
+### Section Padding
+- Desktop: 100px  
+- Tablet: 80px  
+- Mobile: 60px  
+
+---
+
+## 7. Component Styles
+
+### Buttons
+
+#### Primary Button
+- Height: 56px  
+- Radius: 12px  
+- Background: brand.gold  
+- Text: brand.navy, 20px bold  
+- Shadow: soft  
+
+#### Secondary Button
+- Border: 2px brand.navy  
+- Background: transparent  
+- Text: navy  
+- Radius: 12px  
+
+#### Text Button
+- Text: navy  
+- Underline on hover  
+
+---
+
+### Inputs
+
+#### Text Input
+- Height: 56px  
+- Background: white  
+- Border: 1px neutral.grayLight  
+- Radius: 16px  
+- Padding: 16px  
+- Text: navy  
+
+#### Textarea
+- Min height: 120px  
+- Same styling as input  
+
+---
+
+### Cards
+
+#### Standard Card
+- Background: white  
+- Border: 1px neutral.grayLight  
+- Radius: 16px  
+- Shadow: medium  
+- Padding: 24px  
+
+#### Section Card
+- Background: neutral.warmLight  
+- Radius: 16px  
+- Padding: 32px  
+
+#### Interactive Card
+- Background: white  
+- Border: 2px transparent  
+- Radius: 16px  
+- Shadow: soft  
+- Selected: border gold + shadow.deep  
+
+---
+
+### Headers
+
+#### Page Header
+- H1 + Body Large  
+- Spacing: 24px  
+
+#### Section Header
+- H2  
+- Gold underline (4px)  
+- Spacing: 24px  
+
+---
+
+### Navigation
+
+#### Top Nav
+- Height: 80px  
+- Background: white  
+- Links: navy, 18px medium  
+
+#### Footer
+- Background: navy  
+- Links: white  
+- Tagline: 16px light white  
+
+---
+
+## 8. Iconography
+
+### Style
+- Stroke icons  
+- 2px line weight  
+- Colors: navy or gold  
+- Sizes: 24px or 48px  
+
+### Usage
+- Navy = functional  
+- Gold = accent  
+
+---
+
+## 9. Interaction States
+
+### Hover
+- Buttons: darken gold  
+- Links: underline + gold tint  
+- Cards: lift with medium shadow  
+
+### Focus
+- 2px gold outline  
+
+### Active
+- Compressed shadow  
+
+### Disabled
+- 40% opacity  
+
+---
+
+## 10. Motion
+
+### Timing
+- Fast: 120–180ms  
+- Medium: 240–300ms  
+- Large: 300–400ms  
+
+### Easing
+- Standard ease‑in‑out  
+
+### Motion Rules
+- Buttons: subtle press  
+- Cards: gentle lift  
+- Modals: fade + slide up  
+- Dropdowns: fade + scale 98% → 100%  
+
+---
+
+## 11. Imagery
+
+### Photography
+- Warm, pastoral, natural lighting  
+- Real churches, real people  
+- Soft shadows  
+
+### Illustration
+- Minimal  
+- Soft edges  
+- Navy + gold accents  
+
+### Screenshot Frames
+- Background: white  
+- Radius: 16px  
+- Shadow: medium  
+
+---
+
+# End of UI Kit

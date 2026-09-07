@@ -5,7 +5,13 @@ import { useState } from "react";
 /* ---------------------------------------------
    PATHWAY BUILDER COMPONENT
 ---------------------------------------------- */
-function PathwayBuilder({ selected, onSelect }) {
+function PathwayBuilder({
+  selected,
+  onSelect,
+}: {
+  selected: string | null;
+  onSelect: (id: string) => void;
+}) {
   const steps = [
     { id: "foundation", label: "Step 1: Foundation" },
     { id: "growth", label: "Step 2: Growth" },
@@ -38,9 +44,9 @@ function PathwayBuilder({ selected, onSelect }) {
 ---------------------------------------------- */
 export default function DiscipleshipToolsPage() {
   const [loading, setLoading] = useState(false);
-  const [plan, setPlan] = useState(null);
+  const [plan, setPlan] = useState<string | null>(null);
 
-  const [selectedStep, setSelectedStep] = useState(null);
+  const [selectedStep, setSelectedStep] = useState<string | null>(null);
 
   const [groupData, setGroupData] = useState({
     name: "",
@@ -56,7 +62,7 @@ export default function DiscipleshipToolsPage() {
     prayerPoints: ""
   });
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
 
@@ -212,11 +218,55 @@ export default function DiscipleshipToolsPage() {
 
       {/* OUTPUT PREVIEW */}
       {plan && (
-        <div className="bg-white p-8 rounded-xl shadow space-y-4">
+        <div className="bg-white p-8 rounded-xl shadow space-y-6">
           <h2 className="text-2xl font-bold text-navy-900">Generated Plan</h2>
-          <pre className="whitespace-pre-wrap text-slate-700">
-            {plan}
-          </pre>
+
+          {/* PROFESSIONAL DOCUMENT WRAPPER */}
+          <div
+            id="discipleship-output"
+            className="prose prose-slate max-w-none bg-white p-10 rounded-xl shadow"
+          >
+            {/* HEADER */}
+            <header className="border-b pb-6 mb-8">
+              <h1 className="text-3xl font-bold text-navy-900">
+                PATHWAY CHURCH SOLUTIONS — DISCIPLESHIP PLAN
+              </h1>
+              <p className="text-slate-600 text-lg mt-2">
+                Prepared for Discipleship • {new Date().toLocaleDateString()}
+              </p>
+            </header>
+
+            {/* CONTENT */}
+            <div dangerouslySetInnerHTML={{ __html: plan }} />
+
+            {/* FOOTER */}
+            <footer className="border-t pt-6 mt-10 text-sm text-slate-500">
+              <p>Pathway Church Solutions • pathwaychurchsolutions.com</p>
+              <p>© {new Date().getFullYear()} All Rights Reserved</p>
+            </footer>
+          </div>
+
+          {/* COPY + PRINT BUTTONS */}
+          <div className="flex gap-4 pt-4">
+            <button
+              onClick={() => {
+                const el = document.getElementById("discipleship-output");
+                const text = el?.innerText || "";
+                navigator.clipboard.writeText(text);
+                alert("Copied formatted discipleship plan!");
+              }}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Copy
+            </button>
+
+            <button
+              onClick={() => window.print()}
+              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+            >
+              Print
+            </button>
+          </div>
         </div>
       )}
     </div>

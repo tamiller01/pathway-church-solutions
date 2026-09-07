@@ -6,7 +6,13 @@ import { savePlan } from "@/lib/savePlan";
 /* ---------------------------------------------
    OUTLINE GENERATOR COMPONENT
 ---------------------------------------------- */
-function OutlineGenerator({ selected, onSelect }) {
+function OutlineGenerator({
+  selected,
+  onSelect,
+}: {
+  selected: string | null;
+  onSelect: (id: string) => void;
+}) {
   const outlines = [
     { id: "three_point", label: "3-Point Outline" },
     { id: "expository", label: "Expository Outline" },
@@ -39,9 +45,9 @@ function OutlineGenerator({ selected, onSelect }) {
 ---------------------------------------------- */
 export default function SermonBuilderPage() {
   const [loading, setLoading] = useState(false);
-  const [sermon, setSermon] = useState(null);
+  const [sermon, setSermon] = useState<string | null>(null);
 
-  const [outlineType, setOutlineType] = useState(null);
+  const [outlineType, setOutlineType] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     passage: "",
@@ -51,7 +57,7 @@ export default function SermonBuilderPage() {
     keyPoints: ""
   });
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
 
@@ -168,7 +174,30 @@ export default function SermonBuilderPage() {
         <div className="bg-white p-8 rounded-xl shadow space-y-6">
           <h2 className="text-2xl font-bold text-navy-900">Generated Sermon</h2>
 
-          <pre className="whitespace-pre-wrap text-slate-700">{sermon}</pre>
+          {/* PROFESSIONAL SERMON DOCUMENT */}
+          <div
+            id="sermon-output"
+            className="prose prose-slate max-w-none bg-white p-10 rounded-xl shadow"
+          >
+            {/* HEADER */}
+            <header className="border-b pb-6 mb-8">
+              <h1 className="text-3xl font-bold text-navy-900">
+                PATHWAY CHURCH SOLUTIONS — SERMON PLAN
+              </h1>
+              <p className="text-slate-600 text-lg mt-2">
+                Prepared for Sunday Worship • {new Date().toLocaleDateString()}
+              </p>
+            </header>
+
+            {/* SERMON CONTENT */}
+            <div dangerouslySetInnerHTML={{ __html: sermon }} />
+
+            {/* FOOTER */}
+            <footer className="border-t pt-6 mt-10 text-sm text-slate-500">
+              <p>Pathway Church Solutions • pathwaychurchsolutions.com</p>
+              <p>© {new Date().getFullYear()} All Rights Reserved</p>
+            </footer>
+          </div>
 
           {/* SAVE BUTTON */}
           <button
@@ -184,19 +213,28 @@ export default function SermonBuilderPage() {
 
           {/* EXPORT BUTTONS */}
           <div className="flex gap-4">
+
+            {/* COPY FORMATTED TEXT */}
             <button
-              onClick={() => navigator.clipboard.writeText(sermon)}
+              onClick={() => {
+                const el = document.getElementById("sermon-output");
+                const text = el?.innerText || "";
+                navigator.clipboard.writeText(text);
+                alert("Copied formatted sermon!");
+              }}
               className="bg-slate-200 px-4 py-2 rounded"
             >
               Copy
             </button>
 
+            {/* PRINT */}
             <button
               onClick={() => window.print()}
               className="bg-slate-200 px-4 py-2 rounded"
             >
               Print
             </button>
+
           </div>
         </div>
       )}

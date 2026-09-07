@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @theme inline {
   --font-sans: var(--font-geist-sans);
@@ -223,4 +226,37 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-family-primary), Arial, Helvetica, sans-serif;
+}
+@layer components {
+  .prose {
+    @apply text-[var(--color-text-primary)] leading-relaxed;
+  }
+
+  .prose h1 {
+    @apply text-4xl font-bold mt-8 mb-4;
+  }
+
+  .prose h2 {
+    @apply text-3xl font-semibold mt-6 mb-3;
+  }
+
+  .prose h3 {
+    @apply text-2xl font-semibold mt-4 mb-2;
+  }
+
+  .prose p {
+    @apply text-lg my-4;
+  }
+
+  .prose ul {
+    @apply list-disc pl-6 my-4;
+  }
+
+  .prose li {
+    @apply my-2;
+  }
+
+  .prose hr {
+    @apply my-8 border-gray-300;
+  }
 }

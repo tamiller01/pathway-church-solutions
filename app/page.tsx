@@ -28,16 +28,10 @@ const featureItems = [
   },
 ];
 
-const stats = [
-  { label: "Weekly gatherings", value: "4" },
-  { label: "Small groups", value: "18" },
-  { label: "Volunteer leaders", value: "120+" },
-  { label: "Neighborhood impact", value: "1k+" },
-];
-
 export default function Home() {
   return (
     <main className="min-h-screen bg-neutral-warm-light text-brand-navy">
+      {/* HEADER */}
       <header className="bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 sm:px-8 lg:px-12">
           <div className="flex items-center gap-3">
@@ -66,6 +60,7 @@ export default function Home() {
         </div>
       </header>
 
+      {/* HERO */}
       <HeroSection
         eyebrow="AI-powered ministry assistant"
         title="AI-Powered Ministry Assistant for Pastors"
@@ -74,6 +69,7 @@ export default function Home() {
         secondaryAction={<SecondaryButton className="w-full sm:w-auto">Book a demo</SecondaryButton>}
       />
 
+      {/* INTRO */}
       <section className="bg-white px-6 py-20 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-5xl text-center">
           <p className="text-lg text-text-secondary">
@@ -82,6 +78,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* WORSHIP SECTION */}
       <TwoColumnSection
         eyebrow="Worship planning"
         title="Create a complete worship plan in minutes"
@@ -124,12 +121,7 @@ export default function Home() {
         }
       >
         <div className="flex flex-wrap gap-3">
-          {[
-            "Service theme",
-            "Scripture passage",
-            "Worship style",
-            "Song preferences",
-          ].map((item) => (
+          {["Service theme", "Scripture passage", "Worship style", "Song preferences"].map((item) => (
             <span
               key={item}
               className="rounded-full border border-brand-slate-blue-200 bg-brand-slate-blue-50 px-3 py-1.5 text-sm font-medium text-brand-slate-blue-700"
@@ -140,6 +132,7 @@ export default function Home() {
         </div>
       </TwoColumnSection>
 
+      {/* SERMON SECTION */}
       <TwoColumnSection
         eyebrow="Sermon builder"
         title="Draft biblically grounded messages with structure and flow"
@@ -170,6 +163,7 @@ export default function Home() {
         </div>
       </TwoColumnSection>
 
+      {/* DISCIPLESHIP SECTION */}
       <TwoColumnSection
         eyebrow="Discipleship tools"
         title="Build studies and growth pathways for your church"
@@ -197,29 +191,53 @@ export default function Home() {
         </div>
       </TwoColumnSection>
 
-      <section className="bg-white px-6 py-24 sm:px-8 lg:px-12" id="features">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12 text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">
-              Features overview
-            </p>
-            <h2 className="mt-4 text-4xl font-bold text-brand-navy">Everything your ministry team needs</h2>
-          </div>
+      {/* FEATURES OVERVIEW */}
+
+      {/* ⭐ MODULES SECTION — FULLY WORKING ⭐ */}
+      <section id="modules" className="bg-white px-6 py-24 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-center text-3xl font-bold text-brand-navy mb-12">
+            Ministry Modules
+          </h2>
 
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {featureItems.map((item) => (
-              <Card key={item.title} className="h-full border border-neutral-gray-light bg-white p-8 shadow-soft">
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-brand-navy/5 text-2xl text-brand-navy">
-                  {item.icon}
-                </div>
-                <h3 className="text-2xl font-bold text-brand-navy">{item.title}</h3>
-                <p className="mt-3 text-lg text-text-secondary">{item.description}</p>
+            {/* Worship */}
+            <Link href="/worship">
+              <Card className="p-6 rounded-2xl border border-neutral-gray-light bg-white shadow-medium hover:shadow-lg transition cursor-pointer">
+                <div className="text-4xl mb-4">✦</div>
+                <h3 className="text-xl font-bold text-brand-navy">Worship Planning</h3>
+                <p className="text-text-secondary mt-2">
+                  Build flows, transitions, and service outlines in minutes.
+                </p>
               </Card>
-            ))}
+            </Link>
+
+            {/* Sermon */}
+            <Link href="/sermon">
+              <Card className="p-6 rounded-2xl border border-neutral-gray-light bg-white shadow-medium hover:shadow-lg transition cursor-pointer">
+                <div className="text-4xl mb-4">✧</div>
+                <h3 className="text-xl font-bold text-brand-navy">Sermon Builder</h3>
+                <p className="text-text-secondary mt-2">
+                  Shape biblical messages with structure and clarity.
+                </p>
+              </Card>
+            </Link>
+
+            {/* Discipleship */}
+            <Link href="/discipleship">
+              <Card className="p-6 rounded-2xl border border-neutral-gray-light bg-white shadow-medium hover:shadow-lg transition cursor-pointer">
+                <div className="text-4xl mb-4">✷</div>
+                <h3 className="text-xl font-bold text-brand-navy">Discipleship Tools</h3>
+                <p className="text-text-secondary mt-2">
+                  Create study pathways, group plans, and growth rhythms.
+                </p>
+              </Card>
+            </Link>
           </div>
         </div>
       </section>
 
+      {/* LEADERSHIP GRID */}
       <FeatureGrid
         title="Built for leadership and ministry teams"
         description="A single system for planning, preparation, and discipleship across your church."
@@ -243,6 +261,7 @@ export default function Home() {
         className="bg-neutral-warm-light"
       />
 
+      {/* ABOUT */}
       <section className="bg-neutral-warm-medium px-6 py-20 sm:px-8 lg:px-12" id="about">
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">
@@ -255,6 +274,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* MISSION */}
       <section className="bg-white px-6 py-20 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-lg text-text-secondary">
@@ -263,6 +283,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PRICING */}
       <section className="bg-brand-navy px-6 py-24 text-white sm:px-8 lg:px-12" id="pricing">
         <div className="mx-auto max-w-3xl rounded-3xl border border-white/10 bg-brand-navy/80 p-10 text-center shadow-deep">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-gold">
@@ -286,6 +307,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FOOTER */}
       <footer className="bg-brand-navy px-6 py-8 text-white sm:px-8 lg:px-12">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 text-sm text-white/80 md:flex-row md:items-center md:justify-between">
           <div>

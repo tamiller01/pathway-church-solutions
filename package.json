@@ -11,6 +11,7 @@
   "dependencies": {
     "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.109.0",
+    "@tailwindcss/typography": "^0.5.20",
     "next": "16.3.1",
     "openai": "^6.49.0",
     "react": "19.2.8",
@@ -21,9 +22,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.5.5",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
-    "tailwindcss": "^4",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5"
   }
 }

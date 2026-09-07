@@ -5,7 +5,7 @@ import { savePlan } from "@/lib/savePlan";
 
 export default function WorshipPage() {
   const [loading, setLoading] = useState(false);
-  const [plan, setPlan] = useState(null);
+  const [plan, setPlan] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     theme: "",
@@ -14,7 +14,7 @@ export default function WorshipPage() {
     notes: ""
   });
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
 
@@ -112,7 +112,30 @@ export default function WorshipPage() {
             Generated Worship Plan
           </h2>
 
-          <pre className="whitespace-pre-wrap text-slate-700">{plan}</pre>
+          {/* PROFESSIONAL DOCUMENT WRAPPER */}
+          <div
+            id="worship-output"
+            className="prose prose-slate max-w-none bg-white p-10 rounded-xl shadow"
+          >
+            {/* HEADER */}
+            <header className="border-b pb-6 mb-8">
+              <h1 className="text-3xl font-bold text-navy-900">
+                PATHWAY CHURCH SOLUTIONS — WORSHIP PLAN
+              </h1>
+              <p className="text-slate-600 text-lg mt-2">
+                Prepared for Worship • {new Date().toLocaleDateString()}
+              </p>
+            </header>
+
+            {/* CONTENT */}
+            <div dangerouslySetInnerHTML={{ __html: plan }} />
+
+            {/* FOOTER */}
+            <footer className="border-t pt-6 mt-10 text-sm text-slate-500">
+              <p>Pathway Church Solutions • pathwaychurchsolutions.com</p>
+              <p>© {new Date().getFullYear()} All Rights Reserved</p>
+            </footer>
+          </div>
 
           {/* SAVE BUTTON */}
           <button
@@ -128,19 +151,28 @@ export default function WorshipPage() {
 
           {/* EXPORT BUTTONS */}
           <div className="flex gap-4">
+
+            {/* COPY FORMATTED TEXT */}
             <button
-              onClick={() => navigator.clipboard.writeText(plan)}
+              onClick={() => {
+                const el = document.getElementById("worship-output");
+                const text = el?.innerText || "";
+                navigator.clipboard.writeText(text);
+                alert("Copied formatted worship plan!");
+              }}
               className="bg-slate-200 px-4 py-2 rounded"
             >
               Copy
             </button>
 
+            {/* PRINT */}
             <button
               onClick={() => window.print()}
               className="bg-slate-200 px-4 py-2 rounded"
             >
               Print
             </button>
+
           </div>
         </div>
       )}

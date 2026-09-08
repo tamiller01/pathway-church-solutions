@@ -62,7 +62,8 @@ export default function DiscipleshipToolsPage() {
     prayerPoints: ""
   });
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  // ⭐ FIXED EVENT TYPE HERE
+  async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     setLoading(true);
 

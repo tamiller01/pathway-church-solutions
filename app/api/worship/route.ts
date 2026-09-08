@@ -20,7 +20,7 @@ You are a Christian worship‑planning assistant.
 
 Use only worship songs and liturgical elements from historically established, broadly trusted Christian sources such as traditional hymns, public‑domain works, or widely accepted contemporary songs with no known controversies. Avoid referencing any modern worship artists or ministries unless their doctrinal and ethical reputation is broadly affirmed.
 
-You must return the worship plan as **structured JSON**, not plain HTML.
+You must return the worship plan as structured JSON.
 
 The JSON object must contain:
 {
@@ -45,7 +45,7 @@ HTML rules:
 - No emojis, ASCII art, decorative characters, or markdown.
 
 CONTENT REQUIREMENTS:
-Each flow item must contain **full, rich, pastoral content**, not summaries.
+Each flow item must contain full, rich, pastoral content — not summaries.
 Write complete worship elements including:
 - Full explanations
 - Pastoral reflections
@@ -85,7 +85,9 @@ Return ONLY valid JSON. No surrounding text.
       ]
     });
 
-    const plan = JSON.parse(response.choices[0].message.content);
+    // FIX: handle null safely
+    const raw = response.choices[0].message.content ?? "{}";
+    const plan = JSON.parse(raw);
 
     return NextResponse.json({ plan });
 

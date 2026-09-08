@@ -5,7 +5,12 @@ import { savePlan } from "@/lib/savePlan";
 
 export default function WorshipPage() {
   const [loading, setLoading] = useState(false);
-  const [plan, setPlan] = useState<string | null>(null);
+
+  // NEW: plan is now JSON, not a string
+  const [plan, setPlan] = useState<any | null>(null);
+
+  // NEW: assignments stored separately
+  const [assignments, setAssignments] = useState<Record<string, string>>({});
 
   const [formData, setFormData] = useState({
     theme: "",
@@ -13,6 +18,10 @@ export default function WorshipPage() {
     style: "",
     notes: ""
   });
+
+  function updateAssignment(id: string, value: string) {
+    setAssignments((prev) => ({ ...prev, [id]: value }));
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -27,6 +36,14 @@ export default function WorshipPage() {
 
       const data = await res.json();
       setPlan(data.plan);
+
+      // Initialize empty assignments
+      const initialAssignments: Record<string, string> = {};
+      data.plan.flow.forEach((item: any) => {
+        initialAssignments[item.id] = "";
+      });
+      setAssignments(initialAssignments);
+
     } catch (err) {
       console.error("Error generating worship plan:", err);
     } finally {
@@ -115,7 +132,7 @@ export default function WorshipPage() {
           {/* PROFESSIONAL DOCUMENT WRAPPER */}
           <div
             id="worship-output"
-            className="prose prose-slate max-w-none bg-white p-10 rounded-xl shadow"
+            className="prose prose-slate max-w-none bg-white p-10 rounded-xl shadow space-y-10"
           >
             {/* HEADER */}
             <header className="border-b pb-6 mb-8">
@@ -127,8 +144,29 @@ export default function WorshipPage() {
               </p>
             </header>
 
-            {/* CONTENT */}
-            <div dangerouslySetInnerHTML={{ __html: plan }} />
+            {/* FLOW ITEMS */}
+            {plan.flow.map((item: any) => (
+              <div key={item.id} className="space-y-4 border-b pb-6">
+                <h3 className="text-xl font-semibold text-navy-900">
+                  {item.label}
+                </h3>
+
+                <div dangerouslySetInnerHTML={{ __html: item.html }} />
+
+                {/* ASSIGNMENT FIELD */}
+                <div className="pt-2">
+                  <label className="font-medium text-navy-900">
+                    Assign Person
+                  </label>
+                  <input
+                    className="border p-2 rounded w-full mt-1"
+                    placeholder="e.g., John Smith"
+                    value={assignments[item.id] || ""}
+                    onChange={(e) => updateAssignment(item.id, e.target.value)}
+                  />
+                </div>
+              </div>
+            ))}
 
             {/* FOOTER */}
             <footer className="border-t pt-6 mt-10 text-sm text-slate-500">
@@ -140,7 +178,11 @@ export default function WorshipPage() {
           {/* SAVE BUTTON */}
           <button
             onClick={async () => {
-              const result = await savePlan("worship", formData, plan);
+              const result = await savePlan("worship", formData, {
+                ...plan,
+                assignments
+              });
+
               if (result.error) alert(result.error);
               else alert("Worship plan saved!");
             }}
@@ -153,17 +195,39 @@ export default function WorshipPage() {
           <div className="flex gap-4">
 
             {/* COPY FORMATTED TEXT */}
-            <button
-              onClick={() => {
-                const el = document.getElementById("worship-output");
-                const text = el?.innerText || "";
-                navigator.clipboard.writeText(text);
-                alert("Copied formatted worship plan!");
-              }}
-              className="bg-slate-200 px-4 py-2 rounded"
-            >
-              Copy
-            </button>
+           <button
+  onClick={() => {
+    if (!plan) return;
+
+    let output = `PATHWAY CHURCH SOLUTIONS — WORSHIP PLAN\n`;
+    output += `Prepared for Worship • ${new Date().toLocaleDateString()}\n\n`;
+
+    plan.flow.forEach((item: any) => {
+      output += `${item.label}\n`;
+
+      // Convert HTML to plain text
+      const temp = document.createElement("div");
+      temp.innerHTML = item.html;
+      output += temp.innerText.trim() + "\n";
+
+      // Add assignment
+      if (assignments[item.id]) {
+        output += `Assigned to: ${assignments[item.id]}\n`;
+      }
+
+      output += `\n`;
+    });
+
+    output += `Pathway Church Solutions • pathwaychurchsolutions.com\n`;
+    output += `© ${new Date().getFullYear()} All Rights Reserved\n`;
+
+    navigator.clipboard.writeText(output);
+    alert("Copied formatted worship plan!");
+  }}
+  className="bg-slate-200 px-4 py-2 rounded"
+>
+  Copy
+</button>
 
             {/* PRINT */}
             <button

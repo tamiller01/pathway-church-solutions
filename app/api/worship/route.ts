@@ -11,85 +11,81 @@ export async function POST(req: Request) {
 
     const response = await client.chat.completions.create({
       model: "gpt-4o-mini",
+      response_format: { type: "json_object" },
       messages: [
         {
           role: "system",
           content: `
 You are a Christian worship‑planning assistant.
-You must output clean, elegant HTML formatted as a professional ministry document.
-You must NOT use emojis, ASCII art, decorative characters, or markdown.
-You must NOT include <html>, <head>, <body>, or <style> tags.
-Only output inner HTML content.
-Use headings (<h1>, <h2>, <h3>), paragraphs (<p>), lists (<ul>, <li>), and <hr>.
+
+Use only worship songs and liturgical elements from historically established, broadly trusted Christian sources such as traditional hymns, public‑domain works, or widely accepted contemporary songs with no known controversies. Avoid referencing any modern worship artists or ministries unless their doctrinal and ethical reputation is broadly affirmed.
+
+You must return the worship plan as **structured JSON**, not plain HTML.
+
+The JSON object must contain:
+{
+  "theme": string,
+  "scripture": string,
+  "style": string,
+  "title": string,
+  "flow": [
+    {
+      "id": string,
+      "label": string,
+      "html": string,
+      "assignment": ""
+    }
+  ]
+}
+
+HTML rules:
+- Clean, elegant inner HTML only.
+- No <html>, <head>, <body>, or <style> tags.
+- Use <h1>, <h2>, <h3>, <p>, <ul>, <li>, <hr>.
+- No emojis, ASCII art, decorative characters, or markdown.
+
+CONTENT REQUIREMENTS:
+Each flow item must contain **full, rich, pastoral content**, not summaries.
+Write complete worship elements including:
+- Full explanations
+- Pastoral reflections
+- Transitions
+- Prayers
+- Descriptions
+- Scripture commentary
+- Detailed worship flow descriptions
+
+Do NOT assign people. Leave all "assignment" fields as empty strings.
 `
         },
         {
           role: "user",
           content: `
-Generate a full worship plan in clean, elegant HTML.
+Generate a structured JSON worship plan with full, rich content for each section.
 
-<h2>Service Theme</h2>
-<p><strong>Theme:</strong> ${body.theme}</p>
+User Inputs:
+Theme: ${body.theme}
+Scripture: ${body.scripture}
+Style: ${body.style}
+Notes: ${body.notes || "Provide smooth transitions between worship elements."}
 
-<h2>Scripture</h2>
-<p><strong>Passage:</strong> ${body.scripture}</p>
+Sections to generate:
 
-<h2>Worship Style</h2>
-<p><strong>Style:</strong> ${body.style}</p>
+1. Title — compelling, thematic worship service title
+2. Overview — full pastoral narrative overview
+3. Suggested Songs — list + explanations
+4. Service Flow — each item with full descriptions
+5. Transitions — written transitions between elements
+6. Closing Prayer — full written prayer
+7. Pastoral Notes — detailed guidance
 
-<hr/>
-
-<h2>Title</h2>
-<p>Provide a compelling worship service title based on the theme and Scripture.</p>
-
-<hr/>
-
-<h2>Overview</h2>
-<p>Provide a pastoral overview of the worship service, explaining the flow and purpose.</p>
-
-<hr/>
-
-<h2>Suggested Songs</h2>
-<ul>
-  <li>Provide 3–5 worship songs that fit the theme.</li>
-</ul>
-
-<hr/>
-
-<h2>Service Flow</h2>
-<ul>
-  <li>Welcome & Call to Worship</li>
-  <li>Opening Song</li>
-  <li>Scripture Reading</li>
-  <li>Prayer</li>
-  <li>Message / Sermon</li>
-  <li>Response Song</li>
-  <li>Communion (if applicable)</li>
-  <li>Closing Blessing</li>
-</ul>
-
-<hr/>
-
-<h2>Transitions</h2>
-<p>${body.notes || "Provide smooth transitions between worship elements."}</p>
-
-<hr/>
-
-<h2>Closing Prayer</h2>
-<p>Provide a short closing prayer that reflects the theme and Scripture.</p>
-
-<hr/>
-
-<h2>Pastoral Notes</h2>
-<p>Provide pastoral guidance or special instructions for the worship team.</p>
-
-<hr/>
+Return ONLY valid JSON. No surrounding text.
 `
         }
       ]
     });
 
-    const plan = response.choices[0].message.content;
+    const plan = JSON.parse(response.choices[0].message.content);
 
     return NextResponse.json({ plan });
 

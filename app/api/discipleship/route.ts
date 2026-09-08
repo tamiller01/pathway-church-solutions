@@ -13,7 +13,7 @@ export async function POST(req: Request) {
       apiKey: process.env.OPENAI_API_KEY as string
     });
 
-    const completion = await client.chat.completions.create({
+    const response = await client.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
@@ -101,11 +101,12 @@ Generate a full discipleship plan in clean, elegant HTML.
       ]
     });
 
-    const plan = completion.choices[0].message.content;
+    const plan = response.choices[0].message.content;
 
-    const inputTokens = completion.usage?.prompt_tokens ?? 0;
-    const outputTokens = completion.usage?.completion_tokens ?? 0;
-    const totalTokens = completion.usage?.total_tokens ?? inputTokens + outputTokens;
+    // Token usage (OpenAI v6 still returns usage)
+    const inputTokens = response.usage?.prompt_tokens ?? 0;
+    const outputTokens = response.usage?.completion_tokens ?? 0;
+    const totalTokens = response.usage?.total_tokens ?? inputTokens + outputTokens;
 
     const cost =
       inputTokens * INPUT_PRICE +

@@ -9,7 +9,7 @@ export async function POST(req: Request) {
       apiKey: process.env.OPENAI_API_KEY as string
     });
 
-    const completion = await client.chat.completions.create({
+    const response = await client.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
@@ -89,7 +89,7 @@ Generate a full worship plan in clean, elegant HTML.
       ]
     });
 
-    const plan = completion.choices[0].message.content;
+    const plan = response.choices[0].message.content;
 
     return NextResponse.json({ plan });
 

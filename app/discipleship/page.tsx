@@ -31,10 +31,90 @@ function PathwayBuilder({
         >
           <h3 className="text-lg font-semibold text-navy-900">{s.label}</h3>
           <p className="text-slate-600 text-sm mt-1">
-            Click to include this step in the discipleship pathway.
+            Click to build a multi‑week discipleship pathway around this step.
           </p>
         </button>
       ))}
+    </div>
+  );
+}
+
+/* ---------------------------------------------
+   SUPPORT DOCUMENTATION COMPONENT
+---------------------------------------------- */
+function SupportDocumentation() {
+  return (
+    <div className="bg-white p-8 rounded-xl shadow space-y-8">
+      <h2 className="text-2xl font-bold text-navy-900">How Pathway Ensures Biblical Faithfulness</h2>
+
+      {/* Doctrinal Guardrails */}
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Doctrinal Guardrails</h3>
+        <p className="text-slate-700">
+          Every discipleship plan generated through Pathway Church Solutions is built on historic Christian
+          orthodoxy and aligned with the authority of Scripture. Our system rejects content that promotes:
+        </p>
+        <ul className="list-disc pl-6 text-slate-700">
+          <li>Works-based salvation</li>
+          <li>Universalism</li>
+          <li>Prosperity gospel</li>
+          <li>Mystical or occult practices</li>
+          <li>Speculative prophecy or date-setting</li>
+          <li>Redefinition of marriage or gender</li>
+          <li>Denial of biblical sexual ethics</li>
+        </ul>
+      </section>
+
+      {/* Scripture Support */}
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Scripture Support</h3>
+        <p className="text-slate-700">
+          Every discipleship plan includes multiple Scripture references quoted accurately (ESV or NASB),
+          along with contextual notes explaining how each passage reinforces the discipleship theme.
+        </p>
+      </section>
+
+      {/* Trusted Commentary Sources */}
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Trusted Commentary Sources</h3>
+        <p className="text-slate-700">
+          Plans may include short excerpts from historically trusted Christian voices such as:
+        </p>
+        <ul className="list-disc pl-6 text-slate-700">
+          <li>Charles Spurgeon</li>
+          <li>John Stott</li>
+          <li>J.I. Packer</li>
+          <li>A.W. Tozer</li>
+          <li>Matthew Henry</li>
+          <li>R.C. Sproul</li>
+          <li>D. Martyn Lloyd-Jones</li>
+          <li>Oswald Chambers</li>
+          <li>C.S. Lewis</li>
+          <li>John Calvin</li>
+          <li>Augustine</li>
+        </ul>
+        <p className="text-slate-700">
+          We never quote or reference leaders with substantiated ethical, moral, or legal controversy.
+        </p>
+      </section>
+
+      {/* Local Church Priority */}
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Local Church Priority</h3>
+        <p className="text-slate-700">
+          Pathway Church Solutions exists to support pastors—not replace them. Every discipleship plan
+          encourages reliance on Scripture, prayer, pastoral leadership, and the local church community.
+        </p>
+      </section>
+
+      {/* Why This Matters */}
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Why This Matters</h3>
+        <p className="text-slate-700">
+          Small churches deserve doctrinal safety, trusted theological support, and biblically faithful content.
+          These guardrails ensure every discipleship plan is Christ-centered, pastorally warm, and rooted in Scripture.
+        </p>
+      </section>
     </div>
   );
 }
@@ -47,6 +127,7 @@ export default function DiscipleshipToolsPage() {
   const [plan, setPlan] = useState<string | null>(null);
 
   const [selectedStep, setSelectedStep] = useState<string | null>(null);
+  const [weeks, setWeeks] = useState<number>(6);
 
   const [groupData, setGroupData] = useState({
     name: "",
@@ -55,14 +136,11 @@ export default function DiscipleshipToolsPage() {
     goals: ""
   });
 
-  const [studyData, setStudyData] = useState({
-    passage: "",
-    questions: "",
-    takeaways: "",
-    prayerPoints: ""
-  });
+  const [topic, setTopic] = useState("");
+  const [scripture, setScripture] = useState("");
+  const [bookRange, setBookRange] = useState("");
+  const [studyMode, setStudyMode] = useState(""); // NEW FIELD
 
-  // ⭐ FIXED EVENT TYPE HERE
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     setLoading(true);
@@ -73,8 +151,12 @@ export default function DiscipleshipToolsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           group: groupData,
-          study: studyData,
-          pathwayStep: selectedStep
+          topic,
+          scripture,
+          bookRange,
+          studyMode,
+          pathwayStep: selectedStep,
+          weeks
         })
       });
 
@@ -93,7 +175,7 @@ export default function DiscipleshipToolsPage() {
       <div className="space-y-2">
         <h1 className="text-4xl font-bold text-navy-900">Discipleship Tools</h1>
         <p className="text-lg text-slate-600">
-          Build studies, groups, and growth pathways using AI.
+          Build multi‑week discipleship pathways using AI.
         </p>
       </div>
 
@@ -150,64 +232,82 @@ export default function DiscipleshipToolsPage() {
         </div>
       </div>
 
-      {/* STUDY BUILDER */}
+      {/* SERIES INPUTS */}
       <div className="space-y-4 bg-white p-8 rounded-xl shadow">
-        <h2 className="text-2xl font-bold text-navy-900">Study Builder</h2>
+        <h2 className="text-2xl font-bold text-navy-900">Series Inputs</h2>
 
         <div className="space-y-2">
-          <label className="font-medium text-navy-900">Passage</label>
+          <label className="font-medium text-navy-900">Topic (optional)</label>
+          <input
+            className="border p-3 rounded w-full"
+            placeholder="e.g., Fellowship, Leadership, Identity in Christ"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="font-medium text-navy-900">Scripture (optional)</label>
           <input
             className="border p-3 rounded w-full"
             placeholder="e.g., James 1:2–4"
-            value={studyData.passage}
-            onChange={(e) =>
-              setStudyData({ ...studyData, passage: e.target.value })
-            }
+            value={scripture}
+            onChange={(e) => setScripture(e.target.value)}
           />
         </div>
 
         <div className="space-y-2">
-          <label className="font-medium text-navy-900">Questions</label>
-          <textarea
-            className="border p-3 rounded w-full min-h-[120px]"
-            placeholder="List discussion questions..."
-            value={studyData.questions}
-            onChange={(e) =>
-              setStudyData({ ...studyData, questions: e.target.value })
-            }
+          <label className="font-medium text-navy-900">
+            Entire Book or Chapter Study (optional)
+          </label>
+          <input
+            className="border p-3 rounded w-full"
+            placeholder="e.g., Revelation, James 1–5, Romans 8, John 13–17"
+            value={bookRange}
+            onChange={(e) => setBookRange(e.target.value)}
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="font-medium text-navy-900">Key Takeaways</label>
-          <textarea
-            className="border p-3 rounded w-full min-h-[120px]"
-            placeholder="What should participants learn?"
-            value={studyData.takeaways}
-            onChange={(e) =>
-              setStudyData({ ...studyData, takeaways: e.target.value })
-            }
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label className="font-medium text-navy-900">Prayer Points</label>
-          <textarea
-            className="border p-3 rounded w-full min-h-[120px]"
-            placeholder="Prayer focus for the group..."
-            value={studyData.prayerPoints}
-            onChange={(e) =>
-              setStudyData({ ...studyData, prayerPoints: e.target.value })
-            }
-          />
-        </div>
+        {/* STUDY MODE SELECTOR */}
+        {bookRange && (
+          <div className="space-y-2">
+            <label className="font-medium text-navy-900">
+              Study Mode (required when using Book/Chapter/Range)
+            </label>
+            <select
+              className="border p-3 rounded w-full"
+              value={studyMode}
+              onChange={(e) => setStudyMode(e.target.value)}
+            >
+              <option value="">Select study mode...</option>
+              <option value="entire-book">Entire Book Study (Sequential)</option>
+              <option value="key-themes">Key Themes Within the Book (Non‑Sequential)</option>
+            </select>
+          </div>
+        )}
       </div>
 
       {/* PATHWAY BUILDER */}
       <div className="space-y-4 bg-white p-8 rounded-xl shadow">
         <h2 className="text-2xl font-bold text-navy-900">Pathway Builder</h2>
         <PathwayBuilder selected={selectedStep} onSelect={setSelectedStep} />
+
+        {/* Weeks Selector */}
+        <div className="space-y-2 pt-4">
+          <label className="font-medium text-navy-900">Number of Weeks</label>
+          <input
+            type="number"
+            min={1}
+            max={52}
+            className="border p-3 rounded w-full"
+            value={weeks}
+            onChange={(e) => setWeeks(Number(e.target.value))}
+          />
+        </div>
       </div>
+
+      {/* SUPPORT DOCUMENTATION */}
+      <SupportDocumentation />
 
       {/* SUBMIT BUTTON */}
       <button

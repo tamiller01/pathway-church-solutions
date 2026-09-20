@@ -41,6 +41,87 @@ function OutlineGenerator({
 }
 
 /* ---------------------------------------------
+   SUPPORT DOCUMENTATION COMPONENT
+---------------------------------------------- */
+function SupportDocumentation() {
+  return (
+    <div className="bg-white p-8 rounded-xl shadow space-y-8">
+      <h2 className="text-2xl font-bold text-navy-900">How Pathway Ensures Biblical Faithfulness</h2>
+
+      {/* Doctrinal Guardrails */}
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Doctrinal Guardrails</h3>
+        <p className="text-slate-700">
+          Every sermon generated through Pathway Church Solutions is built on historic Christian orthodoxy
+          and aligned with the authority of Scripture. Our system rejects content that promotes:
+        </p>
+        <ul className="list-disc pl-6 text-slate-700">
+          <li>Works-based salvation</li>
+          <li>Universalism</li>
+          <li>Prosperity gospel</li>
+          <li>Mystical or occult practices</li>
+          <li>Speculative prophecy or date-setting</li>
+          <li>Redefinition of marriage or gender</li>
+          <li>Denial of biblical sexual ethics</li>
+        </ul>
+      </section>
+
+      {/* Scripture Support */}
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Scripture Support</h3>
+        <p className="text-slate-700">
+          Every sermon includes multiple Scripture references quoted accurately (ESV or NASB), along with
+          contextual notes explaining how each passage reinforces the message. Cross-references are used to
+          strengthen doctrinal clarity and biblical consistency.
+        </p>
+      </section>
+
+      {/* Trusted Commentary Sources */}
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Trusted Commentary Sources</h3>
+        <p className="text-slate-700">
+          Sermons may include short excerpts from historically trusted Christian voices such as:
+        </p>
+        <ul className="list-disc pl-6 text-slate-700">
+          <li>Charles Spurgeon</li>
+          <li>John Stott</li>
+          <li>J.I. Packer</li>
+          <li>A.W. Tozer</li>
+          <li>Matthew Henry</li>
+          <li>R.C. Sproul</li>
+          <li>D. Martyn Lloyd-Jones</li>
+          <li>Oswald Chambers</li>
+          <li>C.S. Lewis</li>
+          <li>John Calvin</li>
+          <li>Augustine</li>
+        </ul>
+        <p className="text-slate-700">
+          We never quote or reference leaders with substantiated ethical, moral, or legal controversy.
+        </p>
+      </section>
+
+      {/* Local Church Priority */}
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Local Church Priority</h3>
+        <p className="text-slate-700">
+          Pathway Church Solutions exists to support pastors—not replace them. Every sermon encourages
+          reliance on Scripture, prayer, pastoral leadership, and the local church community.
+        </p>
+      </section>
+
+      {/* Why This Matters */}
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Why This Matters</h3>
+        <p className="text-slate-700">
+          Small churches deserve doctrinal safety, trusted theological support, and biblically faithful content.
+          These guardrails ensure every sermon is Christ-centered, pastorally warm, and rooted in Scripture.
+        </p>
+      </section>
+    </div>
+  );
+}
+
+/* ---------------------------------------------
    MAIN SERMON BUILDER PAGE
 ---------------------------------------------- */
 export default function SermonBuilderPage() {
@@ -95,6 +176,9 @@ export default function SermonBuilderPage() {
         <h2 className="text-2xl font-bold text-navy-900">Choose Outline Type</h2>
         <OutlineGenerator selected={outlineType} onSelect={setOutlineType} />
       </div>
+
+      {/* SUPPORT DOCUMENTATION */}
+      <SupportDocumentation />
 
       {/* FORM */}
       <form

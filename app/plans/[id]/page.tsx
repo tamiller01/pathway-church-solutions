@@ -7,7 +7,7 @@ export default function PlanDetailPage() {
   const params = useParams();
   const id = params.id; // dynamic route param
 
-  const [plan, setPlan] = useState(null);
+  const [plan, setPlan] = useState<any>(null);
 
   useEffect(() => {
     async function load() {

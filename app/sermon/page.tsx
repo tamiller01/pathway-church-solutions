@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { savePlan } from "@/lib/savePlan";
 
 /* ---------------------------------------------
    OUTLINE GENERATOR COMPONENT
@@ -14,10 +13,26 @@ function OutlineGenerator({
   onSelect: (id: string) => void;
 }) {
   const outlines = [
-    { id: "three_point", label: "3-Point Outline" },
-    { id: "expository", label: "Expository Outline" },
-    { id: "narrative", label: "Narrative Outline" },
-    { id: "application_heavy", label: "Application-Heavy Outline" }
+    {
+      id: "three_point",
+      label: "3-Point Outline",
+      description: "Choose this for a clear, memorable structure that's easy for listeners to follow."
+    },
+    {
+      id: "expository",
+      label: "Expository Outline",
+      description: "Choose this to walk verse-by-verse through a passage with in-depth exposition."
+    },
+    {
+      id: "narrative",
+      label: "Narrative Outline",
+      description: "Choose this to tell a biblical story arc that draws listeners into the text."
+    },
+    {
+      id: "application_heavy",
+      label: "Application-Heavy Outline",
+      description: "Choose this to emphasize practical takeaways and real-life application."
+    }
   ];
 
   return (
@@ -32,7 +47,7 @@ function OutlineGenerator({
         >
           <h3 className="text-lg font-semibold text-navy-900">{o.label}</h3>
           <p className="text-slate-600 text-sm mt-1">
-            Click to use this outline structure.
+            {o.description}
           </p>
         </button>
       ))}
@@ -45,8 +60,18 @@ function OutlineGenerator({
 ---------------------------------------------- */
 function SupportDocumentation() {
   return (
-    <div className="bg-white p-8 rounded-xl shadow space-y-8">
-      <h2 className="text-2xl font-bold text-navy-900">How Pathway Ensures Biblical Faithfulness</h2>
+    <details className="group bg-white rounded-xl shadow [&_summary::-webkit-details-marker]:hidden">
+      <summary className="cursor-pointer list-none flex items-start justify-between gap-4 p-6 rounded-xl bg-yellow-50 border border-yellow-300">
+        <div>
+          <h2 className="text-lg font-bold text-navy-900">How Pathway Ensures Biblical Faithfulness</h2>
+          <p className="text-sm text-slate-600 mt-1">
+            Doctrinal guardrails, accurate Scripture, and trusted commentary keep every sermon Christ-centered. Click to see the full details.
+          </p>
+        </div>
+        <span className="text-navy-900 font-bold shrink-0 transition-transform group-open:rotate-180">▾</span>
+      </summary>
+
+      <div className="p-8 pt-6 space-y-8">
 
       {/* Doctrinal Guardrails */}
       <section className="space-y-3">
@@ -117,7 +142,9 @@ function SupportDocumentation() {
           These guardrails ensure every sermon is Christ-centered, pastorally warm, and rooted in Scripture.
         </p>
       </section>
-    </div>
+
+      </div>
+    </details>
   );
 }
 
@@ -129,6 +156,8 @@ export default function SermonBuilderPage() {
   const [sermon, setSermon] = useState<string | null>(null);
 
   const [outlineType, setOutlineType] = useState<string | null>(null);
+
+  const [title, setTitle] = useState("");
 
   const [formData, setFormData] = useState({
     passage: "",
@@ -164,11 +193,33 @@ export default function SermonBuilderPage() {
   return (
     <div className="max-w-3xl mx-auto py-12 space-y-10">
       {/* PAGE HEADER */}
-      <div className="space-y-2">
-        <h1 className="text-4xl font-bold text-navy-900">Sermon Builder</h1>
-        <p className="text-lg text-slate-600">
-          Create structured, biblical sermons using AI.
-        </p>
+      <div className="space-y-2 flex items-start justify-between">
+        <div>
+          <h1 className="text-4xl font-bold text-navy-900">Sermon Builder</h1>
+          <p className="text-lg text-slate-600">
+            Create structured, biblical sermons using AI.
+          </p>
+        </div>
+        <a
+          href="/sermons"
+          className="px-3 py-2 border rounded text-sm text-navy-900 whitespace-nowrap"
+        >
+          Saved Sermons
+        </a>
+      </div>
+
+      {/* SUPPORT DOCUMENTATION */}
+      <SupportDocumentation />
+
+      {/* TITLE FIELD */}
+      <div className="space-y-2 bg-white p-8 rounded-xl shadow">
+        <label className="text-2xl font-bold text-navy-900">Sermon Title</label>
+        <input
+          className="border p-3 rounded w-full"
+          placeholder="e.g., Abiding in Christ"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
       </div>
 
       {/* OUTLINE GENERATOR */}
@@ -177,15 +228,13 @@ export default function SermonBuilderPage() {
         <OutlineGenerator selected={outlineType} onSelect={setOutlineType} />
       </div>
 
-      {/* SUPPORT DOCUMENTATION */}
-      <SupportDocumentation />
-
       {/* FORM */}
       <form
         onSubmit={handleSubmit}
         className="space-y-6 bg-white p-8 rounded-xl shadow"
       >
         <div className="space-y-2">
+        <label className="text-2xl font-bold text-navy-900">Sermon Focus</label> <br></br><br></br>
           <label className="font-medium text-navy-900">Passage</label>
           <input
             className="border p-3 rounded w-full"
@@ -261,14 +310,21 @@ export default function SermonBuilderPage() {
           {/* PROFESSIONAL SERMON DOCUMENT */}
           <div
             id="sermon-output"
-            className="prose prose-slate max-w-none bg-white p-10 rounded-xl shadow"
+            className="prose prose-slate prose-sm max-w-none bg-white p-8 rounded-xl shadow
+              prose-headings:text-navy-900 prose-headings:font-semibold
+              prose-h1:text-xl prose-h1:mb-2
+              prose-h2:text-lg prose-h2:mt-6 prose-h2:mb-2
+              prose-h3:text-base prose-h3:mt-5 prose-h3:mb-2
+              prose-p:my-2 prose-p:leading-relaxed
+              prose-ul:my-2 prose-li:my-1
+              prose-hr:my-6"
           >
             {/* HEADER */}
-            <header className="border-b pb-6 mb-8">
-              <h1 className="text-3xl font-bold text-navy-900">
-                PATHWAY CHURCH SOLUTIONS — SERMON PLAN
+            <header className="border-b pb-4 mb-6">
+              <h1 className="text-xl font-bold text-navy-900">
+                {title || "Untitled Sermon"}
               </h1>
-              <p className="text-slate-600 text-lg mt-2">
+              <p className="text-slate-600 text-sm mt-1">
                 Prepared for Sunday Worship • {new Date().toLocaleDateString()}
               </p>
             </header>
@@ -277,26 +333,37 @@ export default function SermonBuilderPage() {
             <div dangerouslySetInnerHTML={{ __html: sermon }} />
 
             {/* FOOTER */}
-            <footer className="border-t pt-6 mt-10 text-sm text-slate-500">
+            <footer className="border-t pt-4 mt-8 text-sm text-slate-500">
               <p>Pathway Church Solutions • pathwaychurchsolutions.com</p>
               <p>© {new Date().getFullYear()} All Rights Reserved</p>
             </footer>
           </div>
 
-          {/* SAVE BUTTON */}
-          <button
-            onClick={async () => {
-              const result = await savePlan("sermon", formData, sermon);
-              if (result.error) alert(result.error);
-              else alert("Sermon saved!");
-            }}
-            className="bg-navy-900 text-white px-6 py-3 rounded"
-          >
-            Save Sermon
-          </button>
-
           {/* EXPORT BUTTONS */}
           <div className="flex gap-4">
+
+            {/* SAVE BUTTON */}
+            <button
+              onClick={async () => {
+                const res = await fetch("/api/sermons", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    title: title || "Untitled Sermon",
+                    ...formData,
+                    outlineType,
+                    sermonHtml: sermon
+                  })
+                });
+
+                const data = await res.json();
+                if (data.error) alert("Failed to save sermon.");
+                else alert("Sermon saved!");
+              }}
+              className="bg-slate-200 px-4 py-2 rounded"
+            >
+              Save Sermon
+            </button>
 
             {/* COPY FORMATTED TEXT */}
             <button

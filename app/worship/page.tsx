@@ -1,7 +1,94 @@
 "use client";
 
 import { useState } from "react";
-import { savePlan } from "@/lib/savePlan";
+
+/* ---------------------------------------------
+   SUPPORT DOCUMENTATION COMPONENT
+---------------------------------------------- */
+function SupportDocumentation() {
+  return (
+    <details className="group bg-white rounded-xl shadow [&_summary::-webkit-details-marker]:hidden">
+      <summary className="cursor-pointer list-none flex items-start justify-between gap-4 p-6 rounded-xl bg-yellow-50 border border-yellow-300">
+        <div>
+          <h2 className="text-lg font-bold text-navy-900">How Pathway Ensures Biblical Faithfulness</h2>
+          <p className="text-sm text-slate-600 mt-1">
+            Doctrinal guardrails, accurate Scripture, and trusted commentary keep every worship plan Christ-centered. Click to see the full details.
+          </p>
+        </div>
+        <span className="text-navy-900 font-bold shrink-0 transition-transform group-open:rotate-180">▾</span>
+      </summary>
+
+      <div className="p-8 pt-6 space-y-8">
+
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Doctrinal Guardrails</h3>
+        <p className="text-slate-700">
+          Every worship plan generated through Pathway Church Solutions is built on historic Christian
+          orthodoxy and aligned with the authority of Scripture. Our system rejects content that promotes:
+        </p>
+        <ul className="list-disc pl-6 text-slate-700">
+          <li>Works-based salvation</li>
+          <li>Universalism</li>
+          <li>Prosperity gospel</li>
+          <li>Mystical or occult practices</li>
+          <li>Speculative prophecy or date-setting</li>
+          <li>Redefinition of marriage or gender</li>
+          <li>Denial of biblical sexual ethics</li>
+        </ul>
+      </section>
+
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Scripture Support</h3>
+        <p className="text-slate-700">
+          Every worship plan includes Scripture references quoted accurately (ESV or NASB), along with
+          contextual notes explaining how each passage reinforces the service theme.
+        </p>
+      </section>
+
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Trusted Commentary Sources</h3>
+        <p className="text-slate-700">
+          Worship plans may include short excerpts or song selections rooted in historically trusted
+          Christian voices and hymnody, such as:
+        </p>
+        <ul className="list-disc pl-6 text-slate-700">
+          <li>Charles Spurgeon</li>
+          <li>John Stott</li>
+          <li>J.I. Packer</li>
+          <li>A.W. Tozer</li>
+          <li>Matthew Henry</li>
+          <li>R.C. Sproul</li>
+          <li>D. Martyn Lloyd-Jones</li>
+          <li>Oswald Chambers</li>
+          <li>C.S. Lewis</li>
+          <li>John Calvin</li>
+          <li>Augustine</li>
+        </ul>
+        <p className="text-slate-700">
+          We never quote or reference leaders with substantiated ethical, moral, or legal controversy.
+        </p>
+      </section>
+
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Local Church Priority</h3>
+        <p className="text-slate-700">
+          Pathway Church Solutions exists to support pastors—not replace them. Every worship plan
+          encourages reliance on Scripture, prayer, pastoral leadership, and the local church community.
+        </p>
+      </section>
+
+      <section className="space-y-3">
+        <h3 className="text-xl font-semibold text-navy-900">Why This Matters</h3>
+        <p className="text-slate-700">
+          Small churches deserve doctrinal safety, trusted theological support, and biblically faithful content.
+          These guardrails ensure every worship plan is Christ-centered, pastorally warm, and rooted in Scripture.
+        </p>
+      </section>
+
+      </div>
+    </details>
+  );
+}
 
 export default function WorshipPage() {
   const [loading, setLoading] = useState(false);
@@ -11,6 +98,8 @@ export default function WorshipPage() {
 
   // NEW: assignments stored separately
   const [assignments, setAssignments] = useState<Record<string, string>>({});
+
+  const [title, setTitle] = useState("");
 
   const [formData, setFormData] = useState({
     theme: "",
@@ -36,6 +125,8 @@ export default function WorshipPage() {
 
       const data = await res.json();
       setPlan(data.plan);
+      // Pre-fill from the AI-generated title; still editable before saving
+      setTitle(data.plan.title || "");
 
       // Initialize empty assignments
       const initialAssignments: Record<string, string> = {};
@@ -54,12 +145,23 @@ export default function WorshipPage() {
   return (
     <div className="max-w-3xl mx-auto py-12 space-y-10">
       {/* PAGE HEADER */}
-      <div className="space-y-2">
-        <h1 className="text-4xl font-bold text-navy-900">Worship Planning</h1>
-        <p className="text-lg text-slate-600">
-          Generate a complete worship plan using AI.
-        </p>
+      <div className="space-y-2 flex items-start justify-between">
+        <div>
+          <h1 className="text-4xl font-bold text-navy-900">Worship Planning</h1>
+          <p className="text-lg text-slate-600">
+            Generate a complete worship plan using AI.
+          </p>
+        </div>
+        <a
+          href="/worship-plans"
+          className="px-3 py-2 border rounded text-sm text-navy-900 whitespace-nowrap"
+        >
+          Saved Worship Plans
+        </a>
       </div>
+
+      {/* SUPPORT DOCUMENTATION */}
+      <SupportDocumentation />
 
       {/* FORM */}
       <form
@@ -136,9 +238,18 @@ export default function WorshipPage() {
           >
             {/* HEADER */}
             <header className="border-b pb-6 mb-8">
-              <h1 className="text-3xl font-bold text-navy-900">
-                PATHWAY CHURCH SOLUTIONS — WORSHIP PLAN
-              </h1>
+              <div className="relative">
+                <input
+                  className="text-3xl font-bold text-navy-900 w-full border border-dashed border-slate-300 rounded px-1 py-0.5 -mx-1 pr-8 hover:border-slate-400 focus:border-yellow-500 focus:border-solid focus:outline-none"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Untitled Worship Plan"
+                />
+                <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 text-base">
+                  ✎
+                </span>
+              </div>
+              <p className="text-slate-500 text-xs mt-1">Click the title to rename it</p>
               <p className="text-slate-600 text-lg mt-2">
                 Prepared for Worship • {new Date().toLocaleDateString()}
               </p>
@@ -147,24 +258,21 @@ export default function WorshipPage() {
             {/* FLOW ITEMS */}
             {plan.flow.map((item: any) => (
               <div key={item.id} className="space-y-4 border-b pb-6">
-                <h3 className="text-xl font-semibold text-navy-900">
-                  {item.label}
-                </h3>
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="text-xl font-semibold text-navy-900">
+                    {item.label}
+                  </h3>
 
-                <div dangerouslySetInnerHTML={{ __html: item.html }} />
-
-                {/* ASSIGNMENT FIELD */}
-                <div className="pt-2">
-                  <label className="font-medium text-navy-900">
-                    Assign Person
-                  </label>
+                  {/* ASSIGNMENT FIELD — inline & unobtrusive so it doesn't break the plan's flow */}
                   <input
-                    className="border p-2 rounded w-full mt-1"
-                    placeholder="e.g., John Smith"
+                    className="border-b border-dashed border-slate-300 bg-transparent text-sm text-slate-500 text-right w-32 focus:w-48 focus:border-yellow-500 focus:outline-none transition-all placeholder:text-slate-400"
+                    placeholder="Assign person"
                     value={assignments[item.id] || ""}
                     onChange={(e) => updateAssignment(item.id, e.target.value)}
                   />
                 </div>
+
+                <div dangerouslySetInnerHTML={{ __html: item.html }} />
               </div>
             ))}
 
@@ -175,24 +283,34 @@ export default function WorshipPage() {
             </footer>
           </div>
 
-          {/* SAVE BUTTON */}
-          <button
-            onClick={async () => {
-              const result = await savePlan("worship", formData, {
-                ...plan,
-                assignments
-              });
-
-              if (result.error) alert(result.error);
-              else alert("Worship plan saved!");
-            }}
-            className="bg-navy-900 text-white px-6 py-3 rounded"
-          >
-            Save Plan
-          </button>
-
           {/* EXPORT BUTTONS */}
           <div className="flex gap-4">
+
+            {/* SAVE BUTTON */}
+            <button
+              onClick={async () => {
+                const res = await fetch("/api/worship-plans", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    title: title || "Untitled Worship Plan",
+                    theme: formData.theme,
+                    scripture: formData.scripture,
+                    style: formData.style,
+                    notes: formData.notes,
+                    plan,
+                    assignments
+                  })
+                });
+
+                const data = await res.json();
+                if (data.error) alert("Failed to save worship plan.");
+                else alert("Worship plan saved!");
+              }}
+              className="bg-slate-200 px-4 py-2 rounded"
+            >
+              Save Plan
+            </button>
 
             {/* COPY FORMATTED TEXT */}
            <button

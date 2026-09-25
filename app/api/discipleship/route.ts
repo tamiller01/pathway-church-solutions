@@ -133,7 +133,7 @@ Encourage reliance on Scripture, prayer, and the local church.
           content: `
 Generate a full multi‑week discipleship plan in clean, elegant HTML.
 
-<h2>Group Overview</h2>
+<h3>Group Overview</h3>
 <p><strong>Name:</strong> ${body.group.name}</p>
 <p><strong>Audience:</strong> ${body.group.audience}</p>
 <p><strong>Frequency:</strong> ${body.group.frequency}</p>
@@ -148,7 +148,7 @@ Generate a full multi‑week discipleship plan in clean, elegant HTML.
 
 <hr/>
 
-<h2>Input Summary</h2>
+<h3>Input Summary</h3>
 <p><strong>Topic:</strong> ${topic || "None provided"}</p>
 <p><strong>Scripture:</strong> ${scripture || "None provided"}</p>
 <p><strong>Book/Chapter/Range:</strong> ${bookRange || "None provided"}</p>
@@ -158,7 +158,7 @@ Generate a full multi‑week discipleship plan in clean, elegant HTML.
 
 <hr/>
 
-<h2>Priority Notice</h2>
+<h3>Priority Notice</h3>
 <p>
 Scripture always takes priority when provided. If Scripture is not provided but a book, chapter, or range is,
 that becomes the anchor. If the topic does not align with the Scripture or book/chapter/range,
@@ -167,7 +167,7 @@ please include a brief pastoral explanation before Week 1.
 
 <hr/>
 
-<h2>Weekly Breakdown</h2>
+<h3>Weekly Breakdown</h3>
 <p>Generate ${weeks} full weeks of discipleship content now.</p>
 
 <ul>
@@ -184,7 +184,7 @@ please include a brief pastoral explanation before Week 1.
 
 <hr/>
 
-<h2>Generate Weeks</h2>
+<h3>Generate Weeks</h3>
 <p>
 Using the topic, Scripture, book/chapter/range, and study mode provided,
 generate ${weeks} full weeks of content. Ensure Week 1 is anchored to either the Scripture passage
@@ -193,7 +193,7 @@ generate ${weeks} full weeks of content. Ensure Week 1 is anchored to either the
 
 <hr/>
 
-<h2>Summary</h2>
+<h3>Summary</h3>
 <p>Provide a pastoral summary of the entire multi‑week pathway.</p>
 
 <hr/>

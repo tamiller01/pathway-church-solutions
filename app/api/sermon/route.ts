@@ -85,7 +85,7 @@ The HTML must include:
 • Clean spacing
 • Professional tone
 
-<h2>Sermon Overview</h2>
+<h3>Sermon Overview</h3>
 <p><strong>Passage:</strong> ${body.passage}</p>
 <p><strong>Topic:</strong> ${body.topic}</p>
 <p><strong>Audience:</strong> ${body.audience}</p>
@@ -93,17 +93,17 @@ The HTML must include:
 
 <hr/>
 
-<h2>Sermon Title</h2>
+<h3>Sermon Title</h3>
 <p>Provide a compelling sermon title based on the passage and topic.</p>
 
 <hr/>
 
-<h2>Introduction</h2>
+<h3>Introduction</h3>
 <p>Write a strong, engaging introduction that frames the topic biblically and pastorally.</p>
 
 <hr/>
 
-<h2>Scripture Exposition</h2>
+<h3>Scripture Exposition</h3>
 <h3>Context</h3>
 <p>Provide historical, cultural, and theological background.</p>
 
@@ -119,7 +119,7 @@ The HTML must include:
 
 <hr/>
 
-<h2>Main Points</h2>
+<h3>Main Points</h3>
 
 <h3>Point 1</h3>
 <ul>
@@ -147,7 +147,7 @@ The HTML must include:
 
 <hr/>
 
-<h2>Supporting Scriptures & Commentary</h2>
+<h3>Supporting Scriptures & Commentary</h3>
 <p>Provide 3–5 additional supporting Scriptures (ESV or NASB) that reinforce the sermon’s main theme. Include a 1–2 sentence contextual explanation for each passage.</p>
 
 <ul>
@@ -168,7 +168,7 @@ The HTML must include:
 
 <hr/>
 
-<h2>Doctrinal Clarity</h2>
+<h3>Doctrinal Clarity</h3>
 <p>Provide a clear biblical stance ONLY on the topic: <strong>${body.topic}</strong>.</p>
 
 <ul>
@@ -182,7 +182,7 @@ The HTML must include:
 
 <hr/>
 
-<h2>Application</h2>
+<h3>Application</h3>
 <ul>
   <li>How should the audience respond?</li>
   <li>What changes should they make?</li>
@@ -191,7 +191,7 @@ The HTML must include:
 
 <hr/>
 
-<h2>Illustrations</h2>
+<h3>Illustrations</h3>
 <ul>
   <li>Illustration 1</li>
   <li>Illustration 2</li>
@@ -199,12 +199,12 @@ The HTML must include:
 
 <hr/>
 
-<h2>Closing Challenge</h2>
+<h3>Closing Challenge</h3>
 <p>Provide a strong pastoral challenge that calls the audience to action.</p>
 
 <hr/>
 
-<h2>Prayer</h2>
+<h3>Prayer</h3>
 <p>Provide a short closing prayer that reflects the message of the sermon.</p>
 
 <hr/>

@@ -13,10 +13,26 @@ function PathwayBuilder({
   onSelect: (id: string) => void;
 }) {
   const steps = [
-    { id: "foundation", label: "Step 1: Foundation" },
-    { id: "growth", label: "Step 2: Growth" },
-    { id: "service", label: "Step 3: Service" },
-    { id: "leadership", label: "Step 4: Leadership" }
+    {
+      id: "foundation",
+      label: "Step 1: Foundation",
+      description: "Choose this for new believers who need core doctrine and daily spiritual habits."
+    },
+    {
+      id: "growth",
+      label: "Step 2: Growth",
+      description: "Choose this to deepen Scripture knowledge and build consistent prayer and study rhythms."
+    },
+    {
+      id: "service",
+      label: "Step 3: Service",
+      description: "Choose this to help believers discover their gifts and start serving the local church."
+    },
+    {
+      id: "leadership",
+      label: "Step 4: Leadership",
+      description: "Choose this to equip mature believers to lead, disciple others, and multiply ministry."
+    }
   ];
 
   return (
@@ -31,7 +47,7 @@ function PathwayBuilder({
         >
           <h3 className="text-lg font-semibold text-navy-900">{s.label}</h3>
           <p className="text-slate-600 text-sm mt-1">
-            Click to build a multi‑week discipleship pathway around this step.
+            {s.description}
           </p>
         </button>
       ))}
@@ -44,10 +60,19 @@ function PathwayBuilder({
 ---------------------------------------------- */
 function SupportDocumentation() {
   return (
-    <div className="bg-white p-8 rounded-xl shadow space-y-8">
-      <h2 className="text-2xl font-bold text-navy-900">How Pathway Ensures Biblical Faithfulness</h2>
+    <details className="group bg-white rounded-xl shadow [&_summary::-webkit-details-marker]:hidden">
+      <summary className="cursor-pointer list-none flex items-start justify-between gap-4 p-6 rounded-xl bg-yellow-50 border border-yellow-300">
+        <div>
+          <h2 className="text-lg font-bold text-navy-900">How Pathway Ensures Biblical Faithfulness</h2>
+          <p className="text-sm text-slate-600 mt-1">
+            Doctrinal guardrails, accurate Scripture, and trusted commentary keep every plan Christ-centered. Click to see the full details.
+          </p>
+        </div>
+        <span className="text-navy-900 font-bold shrink-0 transition-transform group-open:rotate-180">▾</span>
+      </summary>
 
-      {/* Doctrinal Guardrails */}
+      <div className="p-8 pt-6 space-y-8">
+
       <section className="space-y-3">
         <h3 className="text-xl font-semibold text-navy-900">Doctrinal Guardrails</h3>
         <p className="text-slate-700">
@@ -65,7 +90,6 @@ function SupportDocumentation() {
         </ul>
       </section>
 
-      {/* Scripture Support */}
       <section className="space-y-3">
         <h3 className="text-xl font-semibold text-navy-900">Scripture Support</h3>
         <p className="text-slate-700">
@@ -74,7 +98,6 @@ function SupportDocumentation() {
         </p>
       </section>
 
-      {/* Trusted Commentary Sources */}
       <section className="space-y-3">
         <h3 className="text-xl font-semibold text-navy-900">Trusted Commentary Sources</h3>
         <p className="text-slate-700">
@@ -93,12 +116,8 @@ function SupportDocumentation() {
           <li>John Calvin</li>
           <li>Augustine</li>
         </ul>
-        <p className="text-slate-700">
-          We never quote or reference leaders with substantiated ethical, moral, or legal controversy.
-        </p>
       </section>
 
-      {/* Local Church Priority */}
       <section className="space-y-3">
         <h3 className="text-xl font-semibold text-navy-900">Local Church Priority</h3>
         <p className="text-slate-700">
@@ -107,7 +126,6 @@ function SupportDocumentation() {
         </p>
       </section>
 
-      {/* Why This Matters */}
       <section className="space-y-3">
         <h3 className="text-xl font-semibold text-navy-900">Why This Matters</h3>
         <p className="text-slate-700">
@@ -115,7 +133,9 @@ function SupportDocumentation() {
           These guardrails ensure every discipleship plan is Christ-centered, pastorally warm, and rooted in Scripture.
         </p>
       </section>
-    </div>
+
+      </div>
+    </details>
   );
 }
 
@@ -139,7 +159,10 @@ export default function DiscipleshipToolsPage() {
   const [topic, setTopic] = useState("");
   const [scripture, setScripture] = useState("");
   const [bookRange, setBookRange] = useState("");
-  const [studyMode, setStudyMode] = useState(""); // NEW FIELD
+  const [studyMode, setStudyMode] = useState("");
+
+  // ⭐ NEW — PLAN TITLE
+  const [title, setTitle] = useState("");
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -150,6 +173,7 @@ export default function DiscipleshipToolsPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          title: title ,
           group: groupData,
           topic,
           scripture,
@@ -172,11 +196,33 @@ export default function DiscipleshipToolsPage() {
   return (
     <div className="max-w-3xl mx-auto py-12 space-y-10">
       {/* PAGE HEADER */}
-      <div className="space-y-2">
-        <h1 className="text-4xl font-bold text-navy-900">Discipleship Tools</h1>
-        <p className="text-lg text-slate-600">
-          Build multi‑week discipleship pathways using AI.
-        </p>
+      <div className="space-y-2 flex items-start justify-between">
+        <div>
+          <h1 className="text-4xl font-bold text-navy-900">Discipleship Tools</h1>
+          <p className="text-lg text-slate-600">
+            Build multi‑week discipleship pathways using AI.
+          </p>
+        </div>
+        <a
+          href="/plans"
+          className="px-3 py-2 border rounded text-sm text-navy-900 whitespace-nowrap"
+        >
+          Saved Plans
+        </a>
+      </div>
+
+      {/* SUPPORT DOCUMENTATION */}
+      <SupportDocumentation />
+
+      {/* ⭐ TITLE FIELD */}
+      <div className="space-y-2 bg-white p-8 rounded-xl shadow">
+        <label className="text-2xl font-bold text-navy-900">Plan Title</label>
+        <input
+          className="border p-3 rounded w-full"
+          placeholder="e.g., Men's Group – James Study"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
       </div>
 
       {/* GROUP BUILDER */}
@@ -286,10 +332,9 @@ export default function DiscipleshipToolsPage() {
           </div>
         )}
       </div>
-
       {/* PATHWAY BUILDER */}
       <div className="space-y-4 bg-white p-8 rounded-xl shadow">
-        <h2 className="text-2xl font-bold text-navy-900">Pathway Builder</h2>
+        <h2 className="text-2xl font-bold text-navy-900">Discipleship Pathway</h2>
         <PathwayBuilder selected={selectedStep} onSelect={setSelectedStep} />
 
         {/* Weeks Selector */}
@@ -305,9 +350,6 @@ export default function DiscipleshipToolsPage() {
           />
         </div>
       </div>
-
-      {/* SUPPORT DOCUMENTATION */}
-      <SupportDocumentation />
 
       {/* SUBMIT BUTTON */}
       <button
@@ -325,14 +367,21 @@ export default function DiscipleshipToolsPage() {
           {/* PROFESSIONAL DOCUMENT WRAPPER */}
           <div
             id="discipleship-output"
-            className="prose prose-slate max-w-none bg-white p-10 rounded-xl shadow"
+            className="prose prose-slate prose-sm max-w-none bg-white p-8 rounded-xl shadow
+              prose-headings:text-navy-900 prose-headings:font-semibold
+              prose-h1:text-xl prose-h1:mb-2
+              prose-h2:text-lg prose-h2:mt-6 prose-h2:mb-2
+              prose-h3:text-base prose-h3:mt-5 prose-h3:mb-2
+              prose-p:my-2 prose-p:leading-relaxed
+              prose-ul:my-2 prose-li:my-1
+              prose-hr:my-6"
           >
             {/* HEADER */}
-            <header className="border-b pb-6 mb-8">
-              <h1 className="text-3xl font-bold text-navy-900">
-                PATHWAY CHURCH SOLUTIONS — DISCIPLESHIP PLAN
+            <header className="border-b pb-4 mb-6">
+              <h1 className="text-xl font-bold text-navy-900">
+                {title || "Untitled Plan"}
               </h1>
-              <p className="text-slate-600 text-lg mt-2">
+              <p className="text-slate-600 text-sm mt-1">
                 Prepared for Discipleship • {new Date().toLocaleDateString()}
               </p>
             </header>
@@ -341,7 +390,7 @@ export default function DiscipleshipToolsPage() {
             <div dangerouslySetInnerHTML={{ __html: plan }} />
 
             {/* FOOTER */}
-            <footer className="border-t pt-6 mt-10 text-sm text-slate-500">
+            <footer className="border-t pt-4 mt-8 text-sm text-slate-500">
               <p>Pathway Church Solutions • pathwaychurchsolutions.com</p>
               <p>© {new Date().getFullYear()} All Rights Reserved</p>
             </footer>
@@ -349,6 +398,39 @@ export default function DiscipleshipToolsPage() {
 
           {/* COPY + PRINT BUTTONS */}
           <div className="flex gap-4 pt-4">
+       {/* ⭐ SAVE PLAN BUTTON — CORRECTED */}
+            <button
+              onClick={async () => {
+                if (!plan) return;
+
+                const res = await fetch("/api/plans", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    title: title || "Untitled Plan",   // ⭐ CORRECT PLAN TITLE
+                    name: groupData.name || "",        // ⭐ GROUP NAME
+                    group: groupData,
+                    topic,
+                    scripture,
+                    bookRange,
+                    studyMode,
+                    pathwayStep: selectedStep,
+                    weeks,
+                    planHtml: plan
+                  })
+                });
+
+                const data = await res.json();
+                if (data.error) {
+                  alert("Failed to save plan.");
+                } else {
+                  alert("Plan saved!");
+                }
+              }}
+              className="px-4 py-2 bg-slate-200 rounded hover:bg-slate-200"
+            >
+              Save Plan
+            </button>
             <button
               onClick={() => {
                 const el = document.getElementById("discipleship-output");
@@ -356,17 +438,19 @@ export default function DiscipleshipToolsPage() {
                 navigator.clipboard.writeText(text);
                 alert("Copied formatted discipleship plan!");
               }}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="px-4 py-2 bg-slate-200 rounded hover:bg-slate-200"
             >
               Copy
             </button>
 
             <button
               onClick={() => window.print()}
-              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+              className="px-4 py-2 bg-slate-200 rounded hover:bg-slate-200"
             >
               Print
             </button>
+
+            
           </div>
         </div>
       )}

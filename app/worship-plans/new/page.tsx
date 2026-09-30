@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useRoleAccess } from "@/components/RoleAccessProvider";
 
 /* ---------------------------------------------
    SUPPORT DOCUMENTATION COMPONENT
@@ -91,6 +93,9 @@ function SupportDocumentation() {
 }
 
 export default function WorshipPage() {
+  const { canCreate } = useRoleAccess();
+  const searchParams = useSearchParams();
+  const requestedServiceDate = searchParams.get("serviceDate") || "";
   const [loading, setLoading] = useState(false);
 
   // NEW: plan is now JSON, not a string
@@ -102,11 +107,18 @@ export default function WorshipPage() {
   const [title, setTitle] = useState("");
 
   const [formData, setFormData] = useState({
+    serviceDate: "",
     theme: "",
     scripture: "",
     style: "",
     notes: ""
   });
+
+  useEffect(() => {
+    if (requestedServiceDate) {
+      setFormData((previous) => ({ ...previous, serviceDate: requestedServiceDate }));
+    }
+  }, [requestedServiceDate]);
 
   function updateAssignment(id: string, value: string) {
     setAssignments((prev) => ({ ...prev, [id]: value }));
@@ -142,6 +154,16 @@ export default function WorshipPage() {
     }
   }
 
+  if (!canCreate) {
+    return (
+      <main className="mx-auto max-w-3xl px-6 py-12">
+        <h1 className="text-3xl font-bold text-navy-900">Worship plan review access</h1>
+        <p className="mt-3 text-slate-600">Your Reviewer role can view saved worship plans. Creating plans is limited to Pastors and Admins.</p>
+        <a href="/worship-plans" className="mt-5 inline-block font-medium text-blue-700 underline">View saved worship plans</a>
+      </main>
+    );
+  }
+
   return (
     <div className="max-w-3xl mx-auto py-12 space-y-10">
       {/* PAGE HEADER */}
@@ -159,6 +181,9 @@ export default function WorshipPage() {
           Saved Worship Plans
         </a>
       </div>
+      <a href="/worship-plans/schedule" className="inline-block text-sm font-medium text-brand-slate-blue-700 hover:underline">
+        View Sunday Schedule
+      </a>
 
       {/* SUPPORT DOCUMENTATION */}
       <SupportDocumentation />
@@ -168,6 +193,20 @@ export default function WorshipPage() {
         onSubmit={handleSubmit}
         className="space-y-6 bg-white p-8 rounded-xl shadow"
       >
+        <div className="space-y-2">
+          <label className="font-medium text-navy-900" htmlFor="service-date">Service Date</label>
+          <p className="text-sm text-slate-600">
+            This date places the plan on the Sunday Schedule after you generate and save it.
+          </p>
+          <input
+            id="service-date"
+            type="date"
+            className="border p-3 rounded w-full"
+            value={formData.serviceDate}
+            onChange={(e) => setFormData({ ...formData, serviceDate: e.target.value })}
+          />
+        </div>
+
         <div className="space-y-2">
           <label className="font-medium text-navy-900">Service Theme</label>
           <input

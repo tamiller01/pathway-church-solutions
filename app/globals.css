@@ -260,3 +260,59 @@ body {
     @apply my-8 border-gray-300;
   }
 }
+
+.pathway-revision-inserted {
+  color: #b45309 !important;
+  background-color: #fff7ed;
+}
+
+.plan-print-document {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 18mm;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  .plan-print-document,
+  .plan-print-document * {
+    visibility: visible !important;
+  }
+
+  .plan-print-document {
+    position: absolute !important;
+    inset: 0 auto auto 0 !important;
+    display: block !important;
+    width: 100% !important;
+    padding: 0 !important;
+    background: #fff !important;
+    color: #1e2a38 !important;
+    font-family: Georgia, serif;
+    line-height: 1.6;
+  }
+
+  .plan-print-document h1 {
+    margin-bottom: 1.5rem;
+    font-size: 24pt;
+  }
+
+  .plan-print-document h2 {
+    margin-top: 1.5rem;
+    font-size: 17pt;
+  }
+
+  .plan-print-document h3 {
+    margin-top: 1.25rem;
+    font-size: 13pt;
+  }
+
+  .pathway-revision-inserted {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

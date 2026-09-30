@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRoleAccess } from "@/components/RoleAccessProvider";
 
 /* ---------------------------------------------
    PATHWAY BUILDER COMPONENT
@@ -143,6 +144,7 @@ function SupportDocumentation() {
    MAIN DISCIPLESHIP TOOLS PAGE
 ---------------------------------------------- */
 export default function DiscipleshipToolsPage() {
+  const { canCreate } = useRoleAccess();
   const [loading, setLoading] = useState(false);
   const [plan, setPlan] = useState<string | null>(null);
 
@@ -193,6 +195,16 @@ export default function DiscipleshipToolsPage() {
     }
   }
 
+  if (!canCreate) {
+    return (
+      <main className="mx-auto max-w-3xl px-6 py-12">
+        <h1 className="text-3xl font-bold text-navy-900">Discipleship plan review access</h1>
+        <p className="mt-3 text-slate-600">Your Reviewer role can view saved discipleship plans. Creating plans is limited to Pastors and Admins.</p>
+        <a href="/discipleship-plans" className="mt-5 inline-block font-medium text-blue-700 underline">View saved discipleship plans</a>
+      </main>
+    );
+  }
+
   return (
     <div className="max-w-3xl mx-auto py-12 space-y-10">
       {/* PAGE HEADER */}
@@ -204,7 +216,7 @@ export default function DiscipleshipToolsPage() {
           </p>
         </div>
         <a
-          href="/plans"
+          href="/discipleship-plans"
           className="px-3 py-2 border rounded text-sm text-navy-900 whitespace-nowrap"
         >
           Saved Plans

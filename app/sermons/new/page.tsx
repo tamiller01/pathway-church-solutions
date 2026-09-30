@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRoleAccess } from "@/components/RoleAccessProvider";
 
 /* ---------------------------------------------
    OUTLINE GENERATOR COMPONENT
@@ -152,6 +153,7 @@ function SupportDocumentation() {
    MAIN SERMON BUILDER PAGE
 ---------------------------------------------- */
 export default function SermonBuilderPage() {
+  const { canCreate } = useRoleAccess();
   const [loading, setLoading] = useState(false);
   const [sermon, setSermon] = useState<string | null>(null);
 
@@ -188,6 +190,16 @@ export default function SermonBuilderPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (!canCreate) {
+    return (
+      <main className="mx-auto max-w-3xl px-6 py-12">
+        <h1 className="text-3xl font-bold text-navy-900">Sermon review access</h1>
+        <p className="mt-3 text-slate-600">Your Reviewer role can view saved sermons. Creating sermons is limited to Pastors and Admins.</p>
+        <a href="/sermons" className="mt-5 inline-block font-medium text-blue-700 underline">View saved sermons</a>
+      </main>
+    );
   }
 
   return (

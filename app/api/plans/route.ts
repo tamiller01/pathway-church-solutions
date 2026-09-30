@@ -1,13 +1,19 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabaseClient";
+import { requireDiscipleshipCreation } from "@/lib/requireApiAuth";
+import { supabaseAdmin } from "@/lib/supabase-server";
 
 export async function POST(req: Request) {
+  const { profile, response: authError } = await requireDiscipleshipCreation();
+  if (authError) return authError;
+
   try {
     const body = await req.json();
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from("plans")
       .insert({
+      user_id: profile.user.id,
+        organization_id: profile.organizationId,
         // ⭐ NEW FIELD
         title: body.title,
         name: body.name,

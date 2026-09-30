@@ -314,19 +314,23 @@ export function TwoColumnSection({
   description,
   media,
   children,
+  headerAction,
   reverse = false,
   className,
+  id,
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   media?: ReactNode;
   children?: ReactNode;
+  headerAction?: ReactNode;
   reverse?: boolean;
   className?: string;
+  id?: string;
 }) {
   return (
-    <section className={cn("px-6 py-24 sm:px-8 lg:px-12", className)}>
+    <section id={id} className={cn("px-6 py-24 sm:px-8 lg:px-12", className)}>
       <div className="mx-auto max-w-6xl">
         <div className={cn("grid items-center gap-10 lg:grid-cols-2", reverse && "lg:[&>*:first-child]:order-2") }>
           <div className="space-y-6">
@@ -336,7 +340,10 @@ export function TwoColumnSection({
               </p>
             ) : null}
 
-            <h2 className="text-3xl font-bold text-brand-navy sm:text-4xl">{title}</h2>
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="text-3xl font-bold text-brand-navy sm:text-4xl">{title}</h2>
+              {headerAction}
+            </div>
 
             {description ? <p className="text-lg text-text-secondary">{description}</p> : null}
 
@@ -354,10 +361,12 @@ export function FeatureGrid({
   title,
   description,
   items,
+  headerAction,
   className,
 }: {
   title?: string;
   description?: string;
+  headerAction?: ReactNode;
   items: Array<{
     icon?: ReactNode;
     title: string;
@@ -372,6 +381,7 @@ export function FeatureGrid({
           <div className="mx-auto mb-12 max-w-3xl text-center">
             {title ? <h2 className="text-3xl font-bold text-brand-navy sm:text-4xl">{title}</h2> : null}
             {description ? <p className="mt-4 text-lg text-text-secondary">{description}</p> : null}
+            {headerAction}
           </div>
         )}
 

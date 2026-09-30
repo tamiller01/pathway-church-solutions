@@ -9,6 +9,7 @@ import {
   TextInput,
   TwoColumnSection,
 } from "@/components";
+import { getOrCreateProfile } from "@/lib/getProfile";
 
 const featureItems = [
   {
@@ -28,9 +29,19 @@ const featureItems = [
   },
 ];
 
-export default function Home() {
+function BackToTop() {
   return (
-    <main className="min-h-screen bg-neutral-warm-light text-brand-navy">
+    <Link href="#top" className="shrink-0 whitespace-nowrap text-sm font-medium text-brand-slate-blue-600 hover:text-brand-navy">
+      Back to top ↑
+    </Link>
+  );
+}
+
+export default async function Home() {
+  const profile = await getOrCreateProfile();
+
+  return (
+    <main id="top" className="min-h-screen bg-neutral-warm-light text-brand-navy">
       {/* HEADER */}
       <header className="bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 sm:px-8 lg:px-12">
@@ -54,8 +65,20 @@ export default function Home() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <SecondaryButton className="hidden px-6 sm:inline-flex">Early Access</SecondaryButton>
-            <PrimaryButton className="px-6">Get Started</PrimaryButton>
+            {profile ? (
+              <Link href="/dashboard">
+                <PrimaryButton className="px-6">Go to Dashboard</PrimaryButton>
+              </Link>
+            ) : (
+              <>
+                <Link href="/login">
+                  <SecondaryButton className="hidden px-6 sm:inline-flex">Log In</SecondaryButton>
+                </Link>
+                <Link href="/signup">
+                  <PrimaryButton className="px-6">Get Started</PrimaryButton>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -75,13 +98,18 @@ export default function Home() {
           <p className="text-lg text-text-secondary">
             We help church leaders organize ministry, simplify planning, and stay focused on discipleship and pastoral care.
           </p>
+          <div className="mt-4">
+            <BackToTop />
+          </div>
         </div>
       </section>
 
       {/* WORSHIP SECTION */}
       <TwoColumnSection
+        id="features"
         eyebrow="Worship planning"
         title="Create a complete worship plan in minutes"
+        headerAction={<BackToTop />}
         description="From scripture and service theme to song flow, transitions, and pastoral notes, every part of the service is organized in one place."
         media={
           <Card className="overflow-hidden rounded-2xl border border-neutral-gray-light bg-white shadow-medium">
@@ -136,6 +164,7 @@ export default function Home() {
       <TwoColumnSection
         eyebrow="Sermon builder"
         title="Draft biblically grounded messages with structure and flow"
+        headerAction={<BackToTop />}
         description="Turn a passage, topic, and audience into a sermon outline with illustrations, key points, and application moments that are ready to refine."
         reverse
         media={
@@ -167,6 +196,7 @@ export default function Home() {
       <TwoColumnSection
         eyebrow="Discipleship tools"
         title="Build studies and growth pathways for your church"
+        headerAction={<BackToTop />}
         description="Create group studies, discipleship goals, and seasonal care plans that align with your ministry priorities and the life of your congregation."
         media={
           <Card className="overflow-hidden rounded-2xl border border-neutral-gray-light bg-white shadow-medium">
@@ -193,45 +223,51 @@ export default function Home() {
 
       {/* FEATURES OVERVIEW */}
 
-      {/* ⭐ MODULES SECTION — FULLY WORKING ⭐ */}
+      {/* MODULES SECTION — preview only; actual access is role-gated behind login (see /dashboard) */}
       <section id="modules" className="bg-white px-6 py-24 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-center text-3xl font-bold text-brand-navy mb-12">
-            Ministry Modules
-          </h2>
+          <div className="flex items-start justify-between gap-4">
+            <h2 className="text-3xl font-bold text-brand-navy mb-4">
+              Ministry Modules
+            </h2>
+            <BackToTop />
+          </div>
+          <p className="text-center text-text-secondary mb-12">
+            Sign in to access the modules based on your ministry role.
+          </p>
 
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {/* Worship */}
-            <Link href="/worship">
-              <Card className="p-6 rounded-2xl border border-neutral-gray-light bg-white shadow-medium hover:shadow-lg transition cursor-pointer">
-                <div className="text-4xl mb-4">✦</div>
-                <h3 className="text-xl font-bold text-brand-navy">Worship Planning</h3>
-                <p className="text-text-secondary mt-2">
-                  Build flows, transitions, and service outlines in minutes.
-                </p>
-              </Card>
-            </Link>
+            <Card className="p-6 rounded-2xl border border-neutral-gray-light bg-white shadow-medium">
+              <div className="text-4xl mb-4">✦</div>
+              <h3 className="text-xl font-bold text-brand-navy">Worship Planning</h3>
+              <p className="text-text-secondary mt-2">
+                Build flows, transitions, and service outlines in minutes.
+              </p>
+            </Card>
 
             {/* Sermon */}
-            <Link href="/sermon">
-              <Card className="p-6 rounded-2xl border border-neutral-gray-light bg-white shadow-medium hover:shadow-lg transition cursor-pointer">
-                <div className="text-4xl mb-4">✧</div>
-                <h3 className="text-xl font-bold text-brand-navy">Sermon Builder</h3>
-                <p className="text-text-secondary mt-2">
-                  Shape biblical messages with structure and clarity.
-                </p>
-              </Card>
-            </Link>
+            <Card className="p-6 rounded-2xl border border-neutral-gray-light bg-white shadow-medium">
+              <div className="text-4xl mb-4">✧</div>
+              <h3 className="text-xl font-bold text-brand-navy">Sermon Builder</h3>
+              <p className="text-text-secondary mt-2">
+                Shape biblical messages with structure and clarity.
+              </p>
+            </Card>
 
             {/* Discipleship */}
-            <Link href="/discipleship">
-              <Card className="p-6 rounded-2xl border border-neutral-gray-light bg-white shadow-medium hover:shadow-lg transition cursor-pointer">
-                <div className="text-4xl mb-4">✷</div>
-                <h3 className="text-xl font-bold text-brand-navy">Discipleship Tools</h3>
-                <p className="text-text-secondary mt-2">
-                  Create study pathways, group plans, and growth rhythms.
-                </p>
-              </Card>
+            <Card className="p-6 rounded-2xl border border-neutral-gray-light bg-white shadow-medium">
+              <div className="text-4xl mb-4">✷</div>
+              <h3 className="text-xl font-bold text-brand-navy">Discipleship Tools</h3>
+              <p className="text-text-secondary mt-2">
+                Create study pathways, group plans, and growth rhythms.
+              </p>
+            </Card>
+          </div>
+
+          <div className="mt-12 flex justify-center">
+            <Link href="/login">
+              <PrimaryButton className="px-8">Sign in to get started</PrimaryButton>
             </Link>
           </div>
         </div>
@@ -241,6 +277,7 @@ export default function Home() {
       <FeatureGrid
         title="Built for leadership and ministry teams"
         description="A single system for planning, preparation, and discipleship across your church."
+        headerAction={<BackToTop />}
         items={[
           {
             icon: "⚑",
@@ -270,6 +307,9 @@ export default function Home() {
           <h2 className="mt-5 text-4xl font-bold text-brand-navy">
             Designed for churches that want structure without losing spiritual warmth.
           </h2>
+          <div className="mt-4">
+            <BackToTop />
+          </div>
           <div className="mx-auto mt-6 h-1 w-20 rounded-full bg-brand-gold" />
         </div>
       </section>
@@ -280,6 +320,9 @@ export default function Home() {
           <p className="text-lg text-text-secondary">
             Pathway Church Solutions helps churches lead with clarity, consistency, and care from planning through follow-up.
           </p>
+          <div className="mt-4">
+            <BackToTop />
+          </div>
         </div>
       </section>
 
@@ -290,6 +333,11 @@ export default function Home() {
             Early access
           </p>
           <h2 className="mt-4 text-4xl font-bold text-white">Join the early access list</h2>
+          <div className="mt-4">
+            <Link href="#top" className="text-sm font-medium text-white/80 hover:text-white">
+              Back to top ↑
+            </Link>
+          </div>
           <p className="mt-4 text-xl text-white/80">
             Be first to explore the system built for modern ministry leadership.
           </p>
@@ -318,6 +366,8 @@ export default function Home() {
             <Link href="#features">Features</Link>
             <Link href="#modules">Modules</Link>
             <Link href="#about">About</Link>
+            <Link href="/terms">Terms</Link>
+            <Link href="/privacy">Privacy</Link>
           </div>
         </div>
       </footer>

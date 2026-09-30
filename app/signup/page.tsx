@@ -46,6 +46,13 @@ export default async function SignupPage({
             placeholder="At least 6 characters"
           />
 
+          <label className="flex items-start gap-3 text-sm text-text-secondary">
+            <input type="checkbox" name="acceptedTerms" required className="mt-1 accent-brand-gold" />
+            <span>
+              I agree to the <Link href="/terms" className="font-medium text-brand-navy underline">Terms of Service</Link> and acknowledge the <Link href="/privacy" className="font-medium text-brand-navy underline">Privacy Policy</Link>.
+            </span>
+          </label>
+
           <PrimaryButton type="submit" className="w-full md:min-w-0">
             Create account
           </PrimaryButton>

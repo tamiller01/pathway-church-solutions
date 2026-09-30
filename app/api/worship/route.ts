@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
+import { requireContentCreation } from "@/lib/requireApiAuth";
+
 export async function POST(req: Request) {
+  const { response: authError } = await requireContentCreation();
+  if (authError) return authError;
+
   try {
     const body = await req.json();
 

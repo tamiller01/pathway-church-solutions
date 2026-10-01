@@ -14,7 +14,11 @@ export default async function LoginPage({
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-neutral-warm-light px-6 py-12">
-      <Card className="w-full max-w-md border border-neutral-gray-light bg-white p-8 shadow-medium">
+      <div className="w-full max-w-md space-y-4">
+        <Link href="/" className="block text-center text-sm font-medium text-brand-slate-blue-700 hover:underline">
+          Back to main page
+        </Link>
+        <Card className="w-full border border-neutral-gray-light bg-white p-8 shadow-medium">
         <div className="mb-8 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">
             Welcome back
@@ -73,7 +77,8 @@ export default async function LoginPage({
             Sign up
           </Link>
         </p>
-      </Card>
+        </Card>
+      </div>
     </main>
   );
 }

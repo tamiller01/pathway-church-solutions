@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useRoleAccess } from "@/components/RoleAccessProvider";
 
@@ -200,7 +201,7 @@ export default function DiscipleshipToolsPage() {
       <main className="mx-auto max-w-3xl px-6 py-12">
         <h1 className="text-3xl font-bold text-navy-900">Discipleship plan review access</h1>
         <p className="mt-3 text-slate-600">Your Reviewer role can view saved discipleship plans. Creating plans is limited to Pastors and Admins.</p>
-        <a href="/discipleship-plans" className="mt-5 inline-block font-medium text-blue-700 underline">View saved discipleship plans</a>
+        <Link href="/discipleship-plans" className="mt-5 inline-block font-medium text-blue-700 underline">View saved discipleship plans</Link>
       </main>
     );
   }
@@ -215,12 +216,12 @@ export default function DiscipleshipToolsPage() {
             Build multi‑week discipleship pathways using AI.
           </p>
         </div>
-        <a
+        <Link
           href="/discipleship-plans"
           className="px-3 py-2 border rounded text-sm text-navy-900 whitespace-nowrap"
         >
           Saved Plans
-        </a>
+        </Link>
       </div>
 
       {/* SUPPORT DOCUMENTATION */}

@@ -11,24 +11,6 @@ import {
 } from "@/components";
 import { getOrCreateProfile } from "@/lib/getProfile";
 
-const featureItems = [
-  {
-    icon: "✦",
-    title: "Worship Planning",
-    description: "Build flows, transitions, and service outlines in minutes with guided AI prompts.",
-  },
-  {
-    icon: "✧",
-    title: "Sermon Builder",
-    description: "Shape biblical messages with clear structure, illustrations, and application points.",
-  },
-  {
-    icon: "✷",
-    title: "Discipleship Tools",
-    description: "Create study pathways, group plans, and growth rhythms that keep people engaged.",
-  },
-];
-
 function BackToTop() {
   return (
     <Link href="#top" className="shrink-0 whitespace-nowrap text-sm font-medium text-brand-slate-blue-600 hover:text-brand-navy">
@@ -60,6 +42,7 @@ export default async function Home() {
           <nav className="hidden items-center gap-10 text-base font-medium text-brand-navy md:flex">
             <Link href="#features">Features</Link>
             <Link href="#modules">Modules</Link>
+            <Link href="/why-ai">Why AI?</Link>
             <Link href="#pricing">Pricing</Link>
             <Link href="#about">About</Link>
           </nav>
@@ -86,10 +69,10 @@ export default async function Home() {
       {/* HERO */}
       <HeroSection
         eyebrow="AI-powered ministry assistant"
-        title="AI-Powered Ministry Assistant for Pastors"
-        subtitle="Plan worship. Build sermons. Lead with clarity."
-        primaryAction={<PrimaryButton className="w-full sm:w-auto">Start free</PrimaryButton>}
-        secondaryAction={<SecondaryButton className="w-full sm:w-auto">Book a demo</SecondaryButton>}
+        title="AI-Powered Ministry Assistant for Pastors and Church Leaders"
+        subtitle="Plan Worship. Build Sermons. Equip the Church. Lead with Clarity."
+        primaryAction={<Link href="/signup"><PrimaryButton className="w-full sm:w-auto">Start free</PrimaryButton></Link>}
+        secondaryAction={<Link href="/how-it-works"><SecondaryButton className="w-full sm:w-auto">See how it works</SecondaryButton></Link>}
       />
 
       {/* INTRO */}
@@ -110,38 +93,38 @@ export default async function Home() {
         eyebrow="Worship planning"
         title="Create a complete worship plan in minutes"
         headerAction={<BackToTop />}
-        description="From scripture and service theme to song flow, transitions, and pastoral notes, every part of the service is organized in one place."
+        description="Start with a service theme, Scripture, style, and notes. The generator returns an editable service document with a structured flow, transitions, and assignment fields."
         media={
           <Card className="overflow-hidden rounded-2xl border border-neutral-gray-light bg-white shadow-medium">
             <div className="space-y-4 p-5">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">
-                    Service outline
+                    Generated service document
                   </p>
-                  <h3 className="mt-2 text-xl font-bold text-brand-navy">Sunday Morning</h3>
+                  <h3 className="mt-2 text-xl font-bold text-brand-navy">Hope in Christ</h3>
                 </div>
                 <span className="rounded-full bg-brand-gold/20 px-3 py-1 text-xs font-semibold text-brand-navy">
-                  Ready
+                  Editable
                 </span>
               </div>
 
               <div className="space-y-3 rounded-xl bg-neutral-warm-light p-4">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-text-secondary">Welcome</span>
-                  <span className="font-semibold text-brand-navy">3 min</span>
+                  <span className="font-semibold text-brand-navy">Opening greeting</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-text-secondary">Call to worship</span>
-                  <span className="font-semibold text-brand-navy">2 min</span>
+                  <span className="font-semibold text-brand-navy">Congregational focus</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-text-secondary">Song set</span>
-                  <span className="font-semibold text-brand-navy">12 min</span>
+                  <span className="font-semibold text-brand-navy">Suggested sequence</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-text-secondary">Scripture</span>
-                  <span className="font-semibold text-brand-navy">5 min</span>
+                  <span className="text-text-secondary">Scripture and prayer</span>
+                  <span className="font-semibold text-brand-navy">Passage and prayer focus</span>
                 </div>
               </div>
             </div>
@@ -165,20 +148,23 @@ export default async function Home() {
         eyebrow="Sermon builder"
         title="Draft biblically grounded messages with structure and flow"
         headerAction={<BackToTop />}
-        description="Turn a passage, topic, and audience into a sermon outline with illustrations, key points, and application moments that are ready to refine."
+        description="Turn a passage, topic, audience, and tone into an editable HTML sermon document with an overview, exposition, main points, supporting Scriptures, and commentary."
         reverse
         media={
           <Card className="overflow-hidden rounded-2xl border border-neutral-gray-light bg-white shadow-medium">
             <div className="space-y-4 p-5">
               <div className="rounded-xl bg-neutral-warm-light p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">
-                  Outline
+                  Sermon document
                 </p>
                 <div className="mt-4 space-y-3 text-sm text-text-secondary">
-                  <p>1. Opening tension</p>
-                  <p>2. Exposition of the passage</p>
-                  <p>3. Practical application</p>
-                  <p>4. Closing invitation</p>
+                  <p><strong>Passage:</strong> Romans 15:13</p>
+                  <p><strong>Topic:</strong> Hope in Christ</p>
+                  <hr />
+                  <p className="font-semibold text-brand-navy">Introduction</p>
+                  <p className="font-semibold text-brand-navy">Scripture Exposition</p>
+                  <p className="font-semibold text-brand-navy">Main Points</p>
+                  <p className="font-semibold text-brand-navy">Supporting Scriptures & Commentary</p>
                 </div>
               </div>
             </div>
@@ -186,9 +172,9 @@ export default async function Home() {
         }
       >
         <div className="space-y-4 text-text-secondary">
-          <p>• Audience-aware messaging</p>
-          <p>• Narrative and expository options</p>
-          <p>• Prayer and application guidance</p>
+          <p>• Sermon overview with passage, topic, audience, and tone</p>
+          <p>• Introduction, exposition, and main points</p>
+          <p>• Supporting Scriptures and commentary</p>
         </div>
       </TwoColumnSection>
 
@@ -197,17 +183,19 @@ export default async function Home() {
         eyebrow="Discipleship tools"
         title="Build studies and growth pathways for your church"
         headerAction={<BackToTop />}
-        description="Create group studies, discipleship goals, and seasonal care plans that align with your ministry priorities and the life of your congregation."
+        description="Enter a group, audience, goals, Scripture, and pathway step. The generator returns a multi-week HTML study document with weekly themes, Scripture, practices, questions, challenges, and prayer focus."
         media={
           <Card className="overflow-hidden rounded-2xl border border-neutral-gray-light bg-white shadow-medium">
             <div className="space-y-4 p-5">
               <div className="space-y-3">
                 <div className="flex items-center justify-between rounded-xl bg-brand-gold/10 p-3">
-                  <span className="font-medium text-brand-navy">Group Study</span>
-                  <span className="text-xs uppercase text-brand-slate-blue-600">Active</span>
+                  <span className="font-medium text-brand-navy">Group Overview</span>
+                  <span className="text-xs uppercase text-brand-slate-blue-600">6 weeks</span>
                 </div>
                 <div className="rounded-xl bg-neutral-warm-light p-3 text-sm text-text-secondary">
-                  6-week journey on prayer, trust, and obedience
+                  <p><strong>Input Summary:</strong> prayer, trust, and obedience</p>
+                  <p className="mt-2 font-semibold text-brand-navy">Weekly Breakdown</p>
+                  <p className="mt-1">Theme · Scripture · Practice · Questions · Prayer Focus</p>
                 </div>
               </div>
             </div>
@@ -215,9 +203,9 @@ export default async function Home() {
         }
       >
         <div className="space-y-4 text-text-secondary">
-          <p>• Small group curriculum planning</p>
-          <p>• Prayer and discipleship pathways</p>
-          <p>• Care and follow-up rhythms</p>
+          <p>• Group overview and input summary</p>
+          <p>• Multi-week themes and primary Scripture</p>
+          <p>• Practices, discussion questions, challenges, and prayer focus</p>
         </div>
       </TwoColumnSection>
 
@@ -300,17 +288,58 @@ export default async function Home() {
 
       {/* ABOUT */}
       <section className="bg-neutral-warm-medium px-6 py-20 sm:px-8 lg:px-12" id="about">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">
-            Pastoral trust
-          </p>
-          <h2 className="mt-5 text-4xl font-bold text-brand-navy">
-            Designed for churches that want structure without losing spiritual warmth.
-          </h2>
-          <div className="mt-4">
+        <div className="mx-auto max-w-6xl">
+          <div className="flex items-start justify-between gap-4">
+            <div className="max-w-3xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">
+                About Pathway
+              </p>
+              <h2 className="mt-5 text-4xl font-bold text-brand-navy sm:text-5xl">
+                Less time wrestling with a blank page. More time caring for people.
+              </h2>
+            </div>
             <BackToTop />
           </div>
-          <div className="mx-auto mt-6 h-1 w-20 rounded-full bg-brand-gold" />
+
+          <div className="mt-10 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+            <div className="space-y-5 text-lg leading-8 text-text-secondary">
+              <p>
+                Pathway Church Solutions is a ministry planning workspace for pastors and church leaders. It brings sermon preparation, worship planning, discipleship pathways, review, and Sunday scheduling into one calm place.
+              </p>
+              <p>
+                Churches should not have to choose between thoughtful ministry and practical structure. Pathway helps organize the work that surrounds ministry so leaders can spend more attention on prayer, Scripture, people, and the particular needs of their congregation.
+              </p>
+              <p>
+                The system creates a strong first draft, but the church leader remains the author and decision-maker. Every message, service plan, and discipleship resource can be reviewed and shaped before it is used.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-brand-slate-blue-200 bg-white p-7 shadow-medium">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">What guides us</p>
+              <ul className="mt-5 space-y-4 text-brand-navy">
+                <li className="border-b border-neutral-gray-light pb-4"><strong>People over production.</strong><span className="mt-1 block text-sm leading-6 text-text-secondary">Tools should reduce pressure, not create more of it.</span></li>
+                <li className="border-b border-neutral-gray-light pb-4"><strong>Scripture and pastoral wisdom.</strong><span className="mt-1 block text-sm leading-6 text-text-secondary">AI assists preparation; it does not replace the church or its leaders.</span></li>
+                <li><strong>Clarity with room for care.</strong><span className="mt-1 block text-sm leading-6 text-text-secondary">Structure gives leaders more freedom to tailor the work for real people.</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-14 border-t border-brand-slate-blue-200 pt-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-slate-blue-600">One connected workflow</p>
+            <div className="mt-6 grid gap-6 md:grid-cols-4">
+              {[
+                ["Prepare", "Start with the Scripture, theme, audience, or ministry goal in front of you."],
+                ["Shape", "Turn the first draft into a clear document with your own voice and priorities."],
+                ["Review", "Use human review and documented guardrails to catch what needs attention."],
+                ["Serve", "Bring a prepared, editable plan into the life of your local church."],
+              ].map(([title, description]) => (
+                <div key={title}>
+                  <h3 className="text-lg font-bold text-brand-navy">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-text-secondary">{description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -365,10 +394,12 @@ export default async function Home() {
           <div className="flex items-center gap-6">
             <Link href="#features">Features</Link>
             <Link href="#modules">Modules</Link>
+            <Link href="/why-ai">Why AI?</Link>
             <Link href="#about">About</Link>
             <Link href="/terms">Terms</Link>
             <Link href="/privacy">Privacy</Link>
           </div>
+          <Link href="/demo" className="text-xs text-white/50 transition hover:text-white/80">Try the tools</Link>
         </div>
       </footer>
     </main>

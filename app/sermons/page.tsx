@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRoleAccess } from "@/components/RoleAccessProvider";
+import PlanListActions from "@/components/PlanListActions";
 
 type SermonListItem = {
   id: string;
@@ -20,6 +21,8 @@ export default function SermonsPage() {
   const searchParams = useSearchParams();
   const approvedOnly = searchParams.get("status") === "approved";
   const [sermons, setSermons] = useState<SermonListItem[]>([]);
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState(approvedOnly ? "approved" : "all");
 
   useEffect(() => {
     async function load() {
@@ -29,6 +32,11 @@ export default function SermonsPage() {
     }
     load();
   }, [approvedOnly]);
+
+  const visibleSermons = sermons.filter((sermon) => {
+    const text = [sermon.title, sermon.passage, sermon.topic, sermon.audience].filter(Boolean).join(" ").toLowerCase();
+    return text.includes(search.toLowerCase()) && (status === "all" || sermon.review_status === status);
+  });
 
   return (
     <div className="max-w-3xl mx-auto py-12 space-y-6">
@@ -46,8 +54,14 @@ export default function SermonsPage() {
           )}
         </div>
       </div>
+      <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_12rem]">
+        <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search sermons" className="h-11 rounded border border-neutral-gray-light bg-white px-3 text-sm" />
+        <select value={status} onChange={(event) => setStatus(event.target.value)} className="h-11 rounded border border-neutral-gray-light bg-white px-3 text-sm">
+          <option value="all">All statuses</option><option value="draft">Draft</option><option value="in_review">In review</option><option value="approved">Approved</option><option value="published">Published</option>
+        </select>
+      </div>
       <ul className="space-y-3">
-        {sermons.map((s) => (
+        {visibleSermons.map((s) => (
           <li key={s.id} className="border p-4 rounded flex justify-between items-center">
             <div>
               <p className="font-semibold text-navy-900">{s.title || "Untitled Sermon"}</p>
@@ -58,6 +72,7 @@ export default function SermonsPage() {
               <p className="text-slate-600 text-sm">
                 {s.passage} • {s.topic} • {s.audience}
               </p>
+              <PlanListActions resource="sermons" id={s.id} canManage={canCreate} />
             </div>
             <Link
               href={`/sermons/${s.id}`}

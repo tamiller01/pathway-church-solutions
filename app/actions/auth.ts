@@ -3,6 +3,8 @@
 import { redirect } from "next/navigation";
 
 import { createServerClient } from "@/lib/supabase-server-auth";
+import { getOrCreateProfile } from "@/lib/getProfile";
+import { supabaseAdmin } from "@/lib/supabase-server";
 
 export async function login(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
@@ -19,7 +21,8 @@ export async function login(formData: FormData) {
     redirect(`/login?error=${encodeURIComponent(error.message)}`);
   }
 
-  redirect("/dashboard");
+  const profile = await getOrCreateProfile();
+  redirect(profile?.onboardingCompleted ? "/dashboard" : "/onboarding");
 }
 
 export async function requestPasswordReset(formData: FormData) {
@@ -72,7 +75,35 @@ export async function signup(formData: FormData) {
     redirect("/login?message=Check your email to confirm your account");
   }
 
-  redirect("/dashboard");
+  redirect("/onboarding");
+}
+
+export async function completeOnboarding(formData: FormData) {
+  const ministryName = String(formData.get("ministryName") ?? "").trim().slice(0, 120);
+  const firstAction = String(formData.get("firstAction") ?? "dashboard");
+  const profile = await getOrCreateProfile();
+  if (!profile?.organizationId) redirect("/login?error=Your account is not assigned to an organization");
+  if (ministryName.length < 2) redirect("/onboarding?error=Enter your church or ministry name");
+
+  const { error } = await supabaseAdmin
+    .from("organizations")
+    .update({ name: ministryName })
+    .eq("id", profile.organizationId);
+  if (error) redirect("/onboarding?error=Could not save your ministry details");
+
+  const { error: profileError } = await supabaseAdmin
+    .from("profiles")
+    .update({ onboarding_completed: true })
+    .eq("id", profile.user.id);
+  if (profileError) redirect("/onboarding?error=Could not finish onboarding");
+
+  const destinations: Record<string, string> = {
+    sermon: "/sermons/new",
+    worship: "/worship-plans/new",
+    discipleship: "/discipleship-plans/new",
+    dashboard: "/dashboard"
+  };
+  redirect(destinations[firstAction] || "/dashboard");
 }
 
 export async function logout() {

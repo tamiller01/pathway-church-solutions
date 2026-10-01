@@ -13,20 +13,20 @@ export async function getOrCreateProfile() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("role, organization_id")
+    .select("role, organization_id, onboarding_completed")
     .eq("id", user.id)
     .single();
 
   if (profile) {
-    return { user, role: profile.role as UserRole, organizationId: profile.organization_id as string | null };
+    return { user, role: profile.role as UserRole, organizationId: profile.organization_id as string | null, onboardingCompleted: profile.onboarding_completed as boolean };
   }
 
   // Backfill a profile for users created before roles existed.
   const { data: created } = await supabase
     .from("profiles")
     .insert({ id: user.id, email: user.email })
-    .select("role, organization_id")
+    .select("role, organization_id, onboarding_completed")
     .single();
 
-  return { user, role: (created?.role ?? "pastor") as UserRole, organizationId: created?.organization_id as string | null };
+  return { user, role: (created?.role ?? "pastor") as UserRole, organizationId: created?.organization_id as string | null, onboardingCompleted: created?.onboarding_completed as boolean };
 }

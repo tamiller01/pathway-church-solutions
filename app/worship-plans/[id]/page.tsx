@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import PlanWorkflow from "@/components/PlanWorkflow";

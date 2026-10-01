@@ -154,7 +154,7 @@ audit compares it with the current implementation and does not replace the check
 - Real PDF Export, Email Export, and Planning Center Export
 - Search and Filtering
 - Church Profile, Branding Settings, Team Roles, Permissions Settings, and Account Settings
-- Dedicated post-signup onboarding
+- Dedicated post-signup onboarding with ministry name, assigned role, and first-action routing
 - Forgot Password recovery flow is complete
 - Terms of Service and Privacy Policy pages with signup acknowledgment are complete; final legal
       review remains required before any public commercial launch.

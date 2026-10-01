@@ -1,5 +1,8 @@
 "use client";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRoleAccess } from "@/components/RoleAccessProvider";
@@ -116,6 +119,7 @@ export default function WorshipPage() {
 
   useEffect(() => {
     if (requestedServiceDate) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData((previous) => ({ ...previous, serviceDate: requestedServiceDate }));
     }
   }, [requestedServiceDate]);
@@ -159,7 +163,7 @@ export default function WorshipPage() {
       <main className="mx-auto max-w-3xl px-6 py-12">
         <h1 className="text-3xl font-bold text-navy-900">Worship plan review access</h1>
         <p className="mt-3 text-slate-600">Your Reviewer role can view saved worship plans. Creating plans is limited to Pastors and Admins.</p>
-        <a href="/worship-plans" className="mt-5 inline-block font-medium text-blue-700 underline">View saved worship plans</a>
+        <Link href="/worship-plans" className="mt-5 inline-block font-medium text-blue-700 underline">View saved worship plans</Link>
       </main>
     );
   }
@@ -174,16 +178,16 @@ export default function WorshipPage() {
             Generate a complete worship plan using AI.
           </p>
         </div>
-        <a
+        <Link
           href="/worship-plans"
           className="px-3 py-2 border rounded text-sm text-navy-900 whitespace-nowrap"
         >
           Saved Worship Plans
-        </a>
+        </Link>
       </div>
-      <a href="/worship-plans/schedule" className="inline-block text-sm font-medium text-brand-slate-blue-700 hover:underline">
+      <Link href="/worship-plans/schedule" className="inline-block text-sm font-medium text-brand-slate-blue-700 hover:underline">
         View Sunday Schedule
-      </a>
+      </Link>
 
       {/* SUPPORT DOCUMENTATION */}
       <SupportDocumentation />

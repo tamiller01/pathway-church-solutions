@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useRoleAccess } from "@/components/RoleAccessProvider";
 
@@ -197,7 +198,7 @@ export default function SermonBuilderPage() {
       <main className="mx-auto max-w-3xl px-6 py-12">
         <h1 className="text-3xl font-bold text-navy-900">Sermon review access</h1>
         <p className="mt-3 text-slate-600">Your Reviewer role can view saved sermons. Creating sermons is limited to Pastors and Admins.</p>
-        <a href="/sermons" className="mt-5 inline-block font-medium text-blue-700 underline">View saved sermons</a>
+        <Link href="/sermons" className="mt-5 inline-block font-medium text-blue-700 underline">View saved sermons</Link>
       </main>
     );
   }
@@ -212,12 +213,12 @@ export default function SermonBuilderPage() {
             Create structured, biblical sermons using AI.
           </p>
         </div>
-        <a
+        <Link
           href="/sermons"
           className="px-3 py-2 border rounded text-sm text-navy-900 whitespace-nowrap"
         >
           Saved Sermons
-        </a>
+        </Link>
       </div>
 
       {/* SUPPORT DOCUMENTATION */}

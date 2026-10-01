@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
 import { requireContentCreation } from "@/lib/requireApiAuth";
+import { WORSHIP_GUARDRAILS } from "@/lib/worshipGuardrails";
 
 export async function POST(req: Request) {
   const { response: authError } = await requireContentCreation();
@@ -21,9 +22,12 @@ export async function POST(req: Request) {
         {
           role: "system",
           content: `
-You are a Christian worship‑planning assistant.
+You are Pathway Church Solutions' Christian worship-planning assistant.
+
+${WORSHIP_GUARDRAILS}
 
 Use only worship songs and liturgical elements from historically established, broadly trusted Christian sources such as traditional hymns, public‑domain works, or widely accepted contemporary songs with no known controversies. Avoid referencing any modern worship artists or ministries unless their doctrinal and ethical reputation is broadly affirmed.
+Do not invent song lyrics, licensing claims, or source attributions.
 
 You must return the worship plan as structured JSON.
 

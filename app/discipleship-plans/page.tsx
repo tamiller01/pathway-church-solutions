@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRoleAccess } from "@/components/RoleAccessProvider";
+import PlanListActions from "@/components/PlanListActions";
 
 type DiscipleshipPlan = {
   id: string;
@@ -20,6 +21,8 @@ type DiscipleshipPlan = {
 export default function PlansPage() {
   const { canCreateDiscipleship } = useRoleAccess();
   const [plans, setPlans] = useState<DiscipleshipPlan[]>([]);
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("all");
 
   useEffect(() => {
     async function load() {
@@ -29,6 +32,11 @@ export default function PlansPage() {
     }
     load();
   }, []);
+
+  const visiblePlans = plans.filter((plan) => {
+    const text = [plan.title, plan.group_name, plan.pathway_step, plan.book_range, plan.scripture, plan.topic].filter(Boolean).join(" ").toLowerCase();
+    return text.includes(search.toLowerCase()) && (status === "all" || plan.review_status === status);
+  });
 
   return (
     <div className="max-w-3xl mx-auto py-12 space-y-6">
@@ -43,8 +51,14 @@ export default function PlansPage() {
           </Link>
         )}
       </div>
+      <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_12rem]">
+        <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search discipleship plans" className="h-11 rounded border border-neutral-gray-light bg-white px-3 text-sm" />
+        <select value={status} onChange={(event) => setStatus(event.target.value)} className="h-11 rounded border border-neutral-gray-light bg-white px-3 text-sm">
+          <option value="all">All statuses</option><option value="draft">Draft</option><option value="in_review">In review</option><option value="approved">Approved</option><option value="published">Published</option>
+        </select>
+      </div>
       <ul className="space-y-3">
-        {plans.map((p) => (
+        {visiblePlans.map((p) => (
           <li key={p.id} className="border p-4 rounded flex justify-between items-center">
             <div>
               <p className="font-semibold text-navy-900">{p.title || "Untitled Plan"}</p>
@@ -56,6 +70,7 @@ export default function PlansPage() {
               <p className="text-slate-600 text-sm">
                 {p.pathway_step} • {p.weeks} weeks • {p.book_range || p.scripture || p.topic}
               </p>
+              <PlanListActions resource="plans" id={p.id} canManage={canCreateDiscipleship} />
             </div>
             <a
               href={`/discipleship-plans/${p.id}`}

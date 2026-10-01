@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRoleAccess } from "@/components/RoleAccessProvider";
+import PlanListActions from "@/components/PlanListActions";
 
 type WorshipPlanListItem = {
   id: string;
@@ -20,6 +21,8 @@ export default function WorshipPlansPage() {
   const searchParams = useSearchParams();
   const approvedOnly = searchParams.get("status") === "approved";
   const [worshipPlans, setWorshipPlans] = useState<WorshipPlanListItem[]>([]);
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState(approvedOnly ? "approved" : "all");
 
   useEffect(() => {
     async function load() {
@@ -29,6 +32,11 @@ export default function WorshipPlansPage() {
     }
     load();
   }, [approvedOnly]);
+
+  const visiblePlans = worshipPlans.filter((plan) => {
+    const text = [plan.title, plan.theme, plan.scripture, plan.style].filter(Boolean).join(" ").toLowerCase();
+    return text.includes(search.toLowerCase()) && (status === "all" || plan.review_status === status);
+  });
 
   return (
     <div className="max-w-3xl mx-auto py-12 space-y-6">
@@ -43,8 +51,14 @@ export default function WorshipPlansPage() {
         <Link href="/worship-plans" aria-current={!approvedOnly ? "page" : undefined} className={`pb-3 ${!approvedOnly ? "border-b-2 border-brand-gold text-brand-navy" : "text-slate-600 hover:text-brand-navy"}`}>Saved Plans</Link>
         <Link href="/worship-plans/schedule" className="pb-3 text-slate-600 hover:text-brand-navy">Sunday Schedule</Link>
       </nav>
+      <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_12rem]">
+        <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search worship plans" className="h-11 rounded border border-neutral-gray-light bg-white px-3 text-sm" />
+        <select value={status} onChange={(event) => setStatus(event.target.value)} className="h-11 rounded border border-neutral-gray-light bg-white px-3 text-sm">
+          <option value="all">All statuses</option><option value="draft">Draft</option><option value="in_review">In review</option><option value="approved">Approved</option><option value="published">Published</option>
+        </select>
+      </div>
       <ul className="space-y-3">
-        {worshipPlans.map((w) => (
+        {visiblePlans.map((w) => (
           <li key={w.id} className="border p-4 rounded flex justify-between items-center">
             <div>
               <p className="font-semibold text-navy-900">{w.title || "Untitled Worship Plan"}</p>
@@ -55,6 +69,7 @@ export default function WorshipPlansPage() {
               <p className="text-slate-600 text-sm">
                 {w.theme} • {w.scripture} • {w.style}
               </p>
+              <PlanListActions resource="worship-plans" id={w.id} canManage={canCreate} />
             </div>
             <Link
               href={`/worship-plans/${w.id}`}
